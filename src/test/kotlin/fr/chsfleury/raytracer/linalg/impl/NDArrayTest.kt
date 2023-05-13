@@ -1,6 +1,7 @@
 package fr.chsfleury.raytracer.linalg.impl
 
 import fr.chsfleury.raytracer.Doubles.eq
+import fr.chsfleury.raytracer.assertions.DoubleAssert.Companion.assertThatDouble
 import fr.chsfleury.raytracer.assertions.NDArrayAssert.Companion.assertThatNDArray
 import fr.chsfleury.raytracer.assertions.Vec4Assert.Companion.assertThatVec4
 import fr.chsfleury.raytracer.linalg.NDArray
@@ -19,13 +20,13 @@ class NDArrayTest {
             13.5,   14.5,   15.5,   16.5
         )
 
-        assertThat(m[0, 0] eq 1).isTrue()
-        assertThat(m[0, 3] eq 4).isTrue()
-        assertThat(m[1, 0] eq 5.5).isTrue()
-        assertThat(m[1, 2] eq 7.5).isTrue()
-        assertThat(m[2, 2] eq 11).isTrue()
-        assertThat(m[3, 0] eq 13.5).isTrue()
-        assertThat(m[3, 2] eq 15.5).isTrue()
+        assertThatDouble(m[0, 0]).isEqualTo(1)
+        assertThatDouble(m[0, 3]).isEqualTo(4)
+        assertThatDouble(m[1, 0]).isEqualTo(5.5)
+        assertThatDouble(m[1, 2]).isEqualTo(7.5)
+        assertThatDouble(m[2, 2]).isEqualTo(11)
+        assertThatDouble(m[3, 0]).isEqualTo(13.5)
+        assertThatDouble(m[3, 2]).isEqualTo(15.5)
     }
 
     @Test
@@ -34,10 +35,10 @@ class NDArrayTest {
             -3, 5,
             1,  -2
         )
-        assertThat(m[0, 0] eq -3).isTrue()
-        assertThat(m[0, 1] eq 5).isTrue()
-        assertThat(m[1, 0] eq 1).isTrue()
-        assertThat(m[1, 1] eq -2).isTrue()
+        assertThatDouble(m[0, 0]).isEqualTo(-3)
+        assertThatDouble(m[0, 1]).isEqualTo(5)
+        assertThatDouble(m[1, 0]).isEqualTo(1)
+        assertThatDouble(m[1, 1]).isEqualTo(-2)
     }
 
     @Test
@@ -47,9 +48,9 @@ class NDArrayTest {
             1,  -2, -7,
             0,  1,  1
         )
-        assertThat(m[0, 0] eq -3).isTrue()
-        assertThat(m[1, 1] eq -2).isTrue()
-        assertThat(m[2, 2] eq 1).isTrue()
+        assertThatDouble(m[0, 0]).isEqualTo(-3)
+        assertThatDouble(m[1, 1]).isEqualTo(-2)
+        assertThatDouble(m[2, 2]).isEqualTo(1)
     }
 
     @Test
@@ -130,5 +131,151 @@ class NDArrayTest {
 
         assertThatVec4(m * v)
             .isEqualTo(Vec4.tuple(18, 24, 33, 1))
+    }
+
+    @Test
+    fun `Multiplying a matrix by the identity matrix` () {
+        val m = NDArray.of4x4(
+            0, 1, 2,  4,
+            1, 2, 4,  8,
+            2, 4, 8,  16,
+            4, 8, 16, 32
+        )
+
+        assertThatNDArray(m * NDArray.identity(4))
+            .isEqualTo(m)
+    }
+
+    @Test
+    fun `Multiplying the identity matrix by a tuple` () {
+        val a = Vec4.tuple(1, 2, 3, 4)
+        assertThatVec4(NDArray.identity(4) * a)
+            .isEqualTo(a)
+    }
+
+    @Test
+    fun `Transposing a matrix` () {
+        val m = NDArray.of4x4(
+            0, 9, 3, 0,
+            9, 8, 0, 8,
+            1, 8, 5, 3,
+            0, 0, 5, 8
+        )
+
+        val transposed = NDArray.of4x4(
+            0, 9, 1, 0,
+            9, 8, 8, 0,
+            3, 0, 5, 5,
+            0, 8, 3, 8
+        )
+
+        assertThatNDArray(m.transpose())
+            .isEqualTo(transposed)
+    }
+
+    @Test
+    fun `Transposing the identity matrix` () {
+        assertThatNDArray(NDArray.identity(4).transpose())
+            .isEqualTo(NDArray.identity(4))
+    }
+
+    @Test
+    fun `Calculating the determinant of a 2x2 matrix` () {
+        val m = NDArray.of2x2(
+            1,  5,
+            -3, 2
+        )
+        assertThatDouble(m.determinant())
+            .isEqualTo(17)
+    }
+
+    @Test
+    fun `A submatrix of a 3x3 matrix is a 2x2 matrix` () {
+        val m = NDArray.of3x3(
+            1,  5, 0,
+            -3, 2, 7,
+            0,  6, -3
+        )
+
+        val expectedSubMatrix = NDArray.of2x2(
+            -3, 2,
+            0,  6
+        )
+
+        assertThatNDArray(m.subMatrix(0, 2))
+            .isEqualTo(expectedSubMatrix)
+    }
+
+    @Test
+    fun `A submatrix of a 4x4 matrix is a 3x3 matrix` () {
+        val m = NDArray.of4x4(
+            -6, 1, 1,  6,
+            -8, 5, 8,  6,
+            -1, 0, 8,  2,
+            -7, 1, -1, 1
+        )
+
+        val expectedSubMatrix = NDArray.of3x3(
+            -6, 1,  6,
+            -8, 8,  6,
+            -7, -1, 1
+        )
+
+        assertThatNDArray(m.subMatrix(2, 1))
+            .isEqualTo(expectedSubMatrix)
+    }
+
+    @Test
+    fun `Calculating a minor of a 3x3 matrix` () {
+        val m = NDArray.of3x3(
+            3, 5, 0,
+            2, -1, -7,
+            6, -1, 5
+        )
+
+        assertThatDouble(m.minor(1, 0))
+            .isEqualTo(25)
+    }
+
+    @Test
+    fun `Calculating a cofactor of a 3x3 matrix` () {
+        val m = NDArray.of3x3(
+            3, 5,  0,
+            2, -1, -7,
+            6, -1, 5
+        )
+        assertThatDouble(m.minor(0, 0)).isEqualTo(-12)
+        assertThatDouble(m.cofactor(0, 0)).isEqualTo(-12)
+        assertThatDouble(m.minor(1, 0)).isEqualTo(25)
+        assertThatDouble(m.cofactor(1, 0)).isEqualTo(-25)
+    }
+
+    @Test
+    fun `Calculating the determinant of a 3x3 matrix` () {
+        val m = NDArray.of3x3(
+            1,  2, 6,
+            -5, 8, -4,
+            2,  6, 4
+        )
+        assertThatDouble(m.cofactor(0, 0)).isEqualTo(56)
+        assertThatDouble(m.cofactor(0, 1)).isEqualTo(12)
+        assertThatDouble(m.cofactor(0, 2)).isEqualTo(-46)
+        assertThatDouble(m.determinant()).isEqualTo(-196)
+    }
+
+    @Test
+    fun `Calculating the determinant of a 4x4 matrix` () {
+        val m = NDArray.of4x4(
+            -2, -8, 3, 5,
+            -3, 1,  7, 3,
+            1,  2,  -9, 6,
+            -6, 7,  7, -9
+        )
+        assertThatDouble(m.cofactor(0, 0)).isEqualTo(690)
+        assertThatDouble(m.cofactor(0, 1)).isEqualTo(447)
+        assertThatDouble(m.cofactor(0, 2)).isEqualTo(210)
+        assertThatDouble(m.cofactor(0, 3)).isEqualTo(51)
+        assertThatDouble(m.determinant()).isEqualTo(-4071)
+
     }
 }

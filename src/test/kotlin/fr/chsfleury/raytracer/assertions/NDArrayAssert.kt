@@ -9,7 +9,6 @@ class NDArrayAssert(actual: NDArray): AbstractAssert<NDArrayAssert, NDArray>(act
     }
 
     fun isEqualTo(other: NDArray) = also {
-        isNotNull
         val equality = actual eq other
         if (!equality) {
             failWithMessage("Actual NDArray does not equal to expected one")
@@ -17,7 +16,6 @@ class NDArrayAssert(actual: NDArray): AbstractAssert<NDArrayAssert, NDArray>(act
     }
 
     fun isNotEqualTo(other: NDArray) = also {
-        isNotNull
         val equality = actual eq other
         if (equality) {
             failWithMessage("Actual NDArray equals to expected one")

@@ -24,9 +24,37 @@ open class NDArray(
     )
 
     companion object {
+        fun fromXY(width: Int, height: Int, init: (Int, Int) -> Double): NDArray = NDArray(width, height, DoubleArray(width * height) {
+            val (x, y) = toXY(it, width)
+            init(x, y)
+        })
+
         fun of2x2(vararg values: Number) = NDArray(2, 2, *values)
         fun of3x3(vararg values: Number) = NDArray(3, 3, *values)
         fun of4x4(vararg values: Number) = NDArray(4, 4, *values)
+
+        val ID2 = identity(2, true)
+        val ID3 = identity(3, true)
+        val ID4 = identity(4, true)
+
+        fun identity(n: Int, force: Boolean = false): NDArray {
+            if (!force) {
+                when (n) {
+                    4 -> return ID4
+                    3 -> return ID3
+                    2 -> return ID2
+                }
+            }
+            return fromXY(n, n) { x, y ->
+                if (x == y) {
+                    1.0
+                } else {
+                    0.0
+                }
+            }
+        }
+
+        private fun toXY(i: Int, n: Int) = Pair(i % n, i / n)
     }
 
     operator fun get(y: Int, x: Int): Double = data[y * width + x]
@@ -96,6 +124,48 @@ open class NDArray(
     }
 
     fun div(scalar: Number): NDArray = div(scalar.toDouble())
+
+    fun transpose(): NDArray = fromXY(height, width) { x, y -> this[x, y] }
+
+    /**
+     * | a b |
+     * | c d |
+     * det = ad - bc
+     */
+    fun determinant(): Double {
+        return if (width == 2 && height == 2) {
+            determinant2x2()
+        } else {
+            determinantLargerMatrix()
+        }
+    }
+
+    private fun determinant2x2(): Double = data[0] * data[3] - data[1] * data[2]
+    private fun determinantLargerMatrix(): Double = (0 until width).asSequence()
+        .map { data[it] * cofactor(0, it) }
+        .sum()
+
+    fun subMatrix(removedRow: Int, removedCol: Int): NDArray = fromXY(width - 1, height - 1) { x, y ->
+        val sourceX = if (x >= removedCol) {
+            x + 1
+        } else {
+            x
+        }
+        val sourceY = if (y >= removedRow) {
+            y + 1
+        } else {
+            y
+        }
+        this[sourceY, sourceX]
+    }
+
+    fun minor(row: Int, col: Int): Double = subMatrix(row, col).determinant()
+
+    fun cofactor(row: Int, col: Int): Double = if ((row + col) % 2 == 0) {
+        minor(row, col)
+    } else {
+        -minor(row, col)
+    }
 
     private fun checkWidthAndHeightAreEquals(other: NDArray) {
         if (width != other.width || height != other.height) {

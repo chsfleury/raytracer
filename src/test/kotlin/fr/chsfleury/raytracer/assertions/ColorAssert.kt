@@ -9,7 +9,6 @@ class ColorAssert(actual: Color): AbstractAssert<ColorAssert, Color>(actual, Col
     }
 
     fun isEqualTo(other: Color) = also {
-        isNotNull
         val equality = actual eq other
         if (!equality) {
             failWithMessage("Actual color does not equal to expected one")
