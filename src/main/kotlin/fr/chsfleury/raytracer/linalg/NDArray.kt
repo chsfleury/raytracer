@@ -167,6 +167,15 @@ open class NDArray(
         -minor(row, col)
     }
 
+    fun isInvertible() = determinant() neq 0
+
+    fun inverse(): NDArray {
+        val det = determinant()
+        return fromXY(width, height) { x, y ->
+            cofactor(x, y) / det
+        }
+    }
+
     private fun checkWidthAndHeightAreEquals(other: NDArray) {
         if (width != other.width || height != other.height) {
             error("invalid width or height: ${width}x${height} != ${other.width}x${other.height}")
@@ -189,5 +198,16 @@ open class NDArray(
         result = 31 * result + height
         result = 31 * result + data.contentHashCode()
         return result
+    }
+
+    override fun toString(): String {
+        val buffer = StringBuilder(width * height * 3)
+        repeat(height) { y ->
+            repeat(width) { x ->
+                buffer.append("${this[y, x]}, ")
+            }
+            buffer.append("\n")
+        }
+        return buffer.toString()
     }
 }
