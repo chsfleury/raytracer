@@ -133,4 +133,31 @@ class TransformTest {
         val p = point(2, 3, 4)
         assertThatVec4(t * p).isEqualTo(point(2, 3, 7))
     }
+
+    @Test
+    fun `Individual transformations are applied in sequence` () {
+        val p = point(1, 0, 1)
+        val a = Transform.xRotation(PI / 2)
+        val b = Transform.scaling(5, 5, 5)
+        val c = Transform.translation(10, 5, 7)
+
+        val p2 = a * p
+        assertThatVec4(p2).isEqualTo(point(1, -1, 0))
+
+        val p3 = b * p2
+        assertThatVec4(p3).isEqualTo(point(5, -5, 0))
+
+        val p4 = c * p3
+        assertThatVec4(p4).isEqualTo(point(15, 0, 7))
+    }
+
+    @Test
+    fun `Chained transformations must be applied in reverse order` () {
+        val p = point(1, 0, 1)
+        val a = Transform.xRotation(PI / 2)
+        val b = Transform.scaling(5, 5, 5)
+        val c = Transform.translation(10, 5, 7)
+        val t = c * b * a
+        assertThatVec4(t * p).isEqualTo(point(15, 0, 7))
+    }
 }

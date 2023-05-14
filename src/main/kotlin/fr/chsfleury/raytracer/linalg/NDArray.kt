@@ -37,7 +37,7 @@ open class NDArray(
         val ID3 = identity(3, true)
         val ID4 = identity(4, true)
 
-        fun identity(n: Int, force: Boolean = false): NDArray {
+        fun identity(n: Int = 4, force: Boolean = false): NDArray {
             if (!force) {
                 when (n) {
                     4 -> return ID4
@@ -175,6 +175,26 @@ open class NDArray(
             cofactor(x, y) / det
         }
     }
+
+    fun rotateX(r: Double) = Transform.xRotation(r) * this
+    fun rotateX(r: Number) = rotateX(r.toDouble())
+
+    fun rotateY(r: Double) = Transform.yRotation(r) * this
+    fun rotateY(r: Number) = rotateY(r.toDouble())
+
+    fun rotateZ(r: Double) = Transform.zRotation(r) * this
+    fun rotateZ(r: Number) = rotateZ(r.toDouble())
+
+    fun scale(x: Double, y: Double, z: Double) = Transform.scaling(x, y, z) * this
+    fun scale(x: Number, y: Number, z: Number) = scale(x.toDouble(), y.toDouble(), z.toDouble())
+
+    fun translate(x: Double, y: Double, z: Double) = Transform.translation(x, y, z) * this
+    fun translate(x: Number, y: Number, z: Number) = translate(x.toDouble(), y.toDouble(), z.toDouble())
+
+    fun shear(xByY: Double, xByZ: Double, yByX: Double, yByZ: Double, zByX: Double, zByY: Double) = Transform.shearing(xByY, xByZ, yByX, yByZ, zByX, zByY)
+    fun shear(xByY: Number, xByZ: Number, yByX: Number, yByZ: Number, zByX: Number, zByY: Number) = shear(
+        xByY.toDouble(), xByZ.toDouble(), yByX.toDouble(), yByZ.toDouble(), zByX.toDouble(), zByY.toDouble()
+    )
 
     private fun checkWidthAndHeightAreEquals(other: NDArray) {
         if (width != other.width || height != other.height) {
