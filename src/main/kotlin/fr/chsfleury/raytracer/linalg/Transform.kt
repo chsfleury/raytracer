@@ -43,4 +43,15 @@ object Transform {
         0, 0, 1, 0,
         0, 0, 0, 1
     )
+
+    fun shearing(xByY: Double, xByZ: Double, yByX: Double, yByZ: Double, zByX: Double, zByY: Double): NDArray = NDArray.of4x4(
+        1, xByY, xByZ, 0,
+        yByX, 1, yByZ, 0,
+        zByX, zByY, 1, 0,
+        0, 0, 0, 1
+    )
+
+    fun shearing(xByY: Number, xByZ: Number, yByX: Number, yByZ: Number, zByX: Number, zByY: Number) = Transform.shearing(
+        xByY.toDouble(), xByZ.toDouble(), yByX.toDouble(), yByZ.toDouble(), zByX.toDouble(), zByY.toDouble()
+    )
 }

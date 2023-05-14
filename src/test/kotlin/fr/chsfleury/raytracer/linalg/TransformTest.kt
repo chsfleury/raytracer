@@ -91,4 +91,46 @@ class TransformTest {
         assertThatVec4(halfQuarter * p).isEqualTo(point(-sqrt(2.0) / 2, sqrt(2.0) / 2, 0))
         assertThatVec4(fullQuarter * p).isEqualTo(point(-1, 0, 0))
     }
+
+    @Test
+    fun `A shearing transformation moves x in proportion to y` () {
+        val t = Transform.shearing(1, 0, 0, 0, 0, 0)
+        val p = point(2, 3, 4)
+        assertThatVec4(t * p).isEqualTo(point(5, 3, 4))
+    }
+
+    @Test
+    fun `A shearing transformation moves x in proportion to z` () {
+        val t = Transform.shearing(0, 1, 0, 0, 0, 0)
+        val p = point(2, 3, 4)
+        assertThatVec4(t * p).isEqualTo(point(6, 3, 4))
+    }
+
+    @Test
+    fun `A shearing transformation moves y in proportion to x` () {
+        val t = Transform.shearing(0, 0, 1, 0, 0, 0)
+        val p = point(2, 3, 4)
+        assertThatVec4(t * p).isEqualTo(point(2, 5, 4))
+    }
+
+    @Test
+    fun `A shearing transformation moves y in proportion to z` () {
+        val t = Transform.shearing(0, 0, 0, 1, 0, 0)
+        val p = point(2, 3, 4)
+        assertThatVec4(t * p).isEqualTo(point(2, 7, 4))
+    }
+
+    @Test
+    fun `A shearing transformation moves z in proportion to x` () {
+        val t = Transform.shearing(0, 0, 0, 0, 1, 0)
+        val p = point(2, 3, 4)
+        assertThatVec4(t * p).isEqualTo(point(2, 3, 6))
+    }
+
+    @Test
+    fun `A shearing transformation moves z in proportion to y` () {
+        val t = Transform.shearing(0, 0, 0, 0, 0, 1)
+        val p = point(2, 3, 4)
+        assertThatVec4(t * p).isEqualTo(point(2, 3, 7))
+    }
 }
