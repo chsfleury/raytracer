@@ -1,4 +1,4 @@
-package fr.chsfleury.raytracer.cannon
+package fr.chsfleury.raytracer.exercises.cannon
 
 import fr.chsfleury.raytracer.Canvas
 import fr.chsfleury.raytracer.Color
