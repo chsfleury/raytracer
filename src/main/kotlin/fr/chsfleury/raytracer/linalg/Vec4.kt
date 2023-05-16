@@ -12,11 +12,8 @@ class Vec4(internal val ndArray: NDArray) {
         const val VECTOR_W = 0.0
 
         fun tuple(x: Double, y: Double, z: Double, w: Double) = Vec4(x, y, z, w)
-        fun tuple(x: Number, y: Number, z: Number, w: Number) = Vec4(x.toDouble(), y.toDouble(), z.toDouble(), w.toDouble())
         fun vector(x: Double, y: Double, z: Double) = Vec4(x, y, z, VECTOR_W)
-        fun vector(x: Number, y: Number, z: Number) = Vec4(x.toDouble(), y.toDouble(), z.toDouble(), VECTOR_W)
         fun point(x: Double, y: Double, z: Double) = Vec4(x, y, z, POINT_W)
-        fun point(x: Number, y: Number, z: Number) = Vec4(x.toDouble(), y.toDouble(), z.toDouble(), POINT_W)
     }
 
     val x: Double

@@ -3,9 +3,9 @@ package fr.chsfleury.raytracer.exercises.cannon
 import fr.chsfleury.raytracer.Canvas
 import fr.chsfleury.raytracer.Color
 import fr.chsfleury.raytracer.Pixel
-import fr.chsfleury.raytracer.linalg.Vec4.Companion.point
-import fr.chsfleury.raytracer.linalg.Vec4.Companion.vector
+import fr.chsfleury.raytracer.point
 import fr.chsfleury.raytracer.swing.Window
+import fr.chsfleury.raytracer.vector
 import kotlin.math.roundToInt
 
 object Cannon {

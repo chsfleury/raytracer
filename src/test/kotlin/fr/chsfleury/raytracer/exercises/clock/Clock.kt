@@ -4,7 +4,7 @@ import fr.chsfleury.raytracer.Canvas
 import fr.chsfleury.raytracer.Color
 import fr.chsfleury.raytracer.Pixel
 import fr.chsfleury.raytracer.linalg.Transform
-import fr.chsfleury.raytracer.linalg.Vec4
+import fr.chsfleury.raytracer.point
 import fr.chsfleury.raytracer.swing.Window
 import kotlin.math.PI
 import kotlin.math.roundToInt
@@ -14,7 +14,7 @@ object Clock {
     @JvmStatic
     fun main(args: Array<String>) {
         val t = Transform.zRotation(PI / 6)
-        var v = Vec4.point(250, 0, 0)
+        var v = point(250, 0, 0)
 
         val width = 900
         val height = 600

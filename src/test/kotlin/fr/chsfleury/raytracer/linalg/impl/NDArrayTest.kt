@@ -1,14 +1,12 @@
 package fr.chsfleury.raytracer.linalg.impl
 
-import fr.chsfleury.raytracer.Doubles.eq
 import fr.chsfleury.raytracer.assertions.DoubleAssert.Companion.assertThatDouble
 import fr.chsfleury.raytracer.assertions.NDArrayAssert.Companion.assertThatNDArray
 import fr.chsfleury.raytracer.assertions.Vec4Assert.Companion.assertThatVec4
 import fr.chsfleury.raytracer.linalg.NDArray
-import fr.chsfleury.raytracer.linalg.Vec4
+import fr.chsfleury.raytracer.tuple
 import org.assertj.core.api.Assertions.assertThat
 import org.junit.jupiter.api.Test
-import kotlin.math.exp
 
 class NDArrayTest {
 
@@ -128,10 +126,10 @@ class NDArrayTest {
             0, 0, 0, 1
         )
 
-        val v = Vec4.tuple(1, 2, 3, 1)
+        val v = tuple(1, 2, 3, 1)
 
         assertThatVec4(m * v)
-            .isEqualTo(Vec4.tuple(18, 24, 33, 1))
+            .isEqualTo(tuple(18, 24, 33, 1))
     }
 
     @Test
@@ -149,7 +147,7 @@ class NDArrayTest {
 
     @Test
     fun `Multiplying the identity matrix by a tuple`() {
-        val a = Vec4.tuple(1, 2, 3, 4)
+        val a = tuple(1, 2, 3, 4)
         assertThatVec4(NDArray.identity(4) * a)
             .isEqualTo(a)
     }

@@ -1,7 +1,8 @@
 package fr.chsfleury.raytracer.linalg
 
 import fr.chsfleury.raytracer.assertions.Vec4Assert.Companion.assertThatVec4
-import fr.chsfleury.raytracer.linalg.Vec4.Companion.point
+import fr.chsfleury.raytracer.point
+import fr.chsfleury.raytracer.vector
 import org.junit.jupiter.api.Test
 import kotlin.math.PI
 import kotlin.math.sqrt
@@ -25,7 +26,7 @@ class TransformTest {
     @Test
     fun `Translation does not affect vectors` () {
         val t = Transform.translation(5, -3, 2)
-        val v = Vec4.vector(-3, 4, 5)
+        val v = vector(-3, 4, 5)
         assertThatVec4(t * v).isEqualTo(v)
     }
 
@@ -39,15 +40,15 @@ class TransformTest {
     @Test
     fun `A scaling matrix applied to a vector` () {
         val t = Transform.scaling(2, 3, 4)
-        val v = Vec4.vector(-4, 6, 8)
-        assertThatVec4(t * v).isEqualTo(Vec4.vector(-8, 18, 32))
+        val v = vector(-4, 6, 8)
+        assertThatVec4(t * v).isEqualTo(vector(-8, 18, 32))
     }
 
     @Test
     fun `Multiplying by the inverse of a scaling matrix` () {
         val t = Transform.scaling(2, 3, 4).inverse()
-        val v = Vec4.vector(-4, 6, 8)
-        assertThatVec4(t * v).isEqualTo(Vec4.vector(-2, 2, 2))
+        val v = vector(-4, 6, 8)
+        assertThatVec4(t * v).isEqualTo(vector(-2, 2, 2))
     }
 
     @Test
