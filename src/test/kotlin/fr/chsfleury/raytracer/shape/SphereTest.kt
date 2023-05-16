@@ -19,8 +19,8 @@ class SphereTest {
         val s = sphere()
         val xs = s.intersect(r)
         assertThat(xs).hasSize(2)
-        assertThatDouble(xs[0]).isEqualTo(4)
-        assertThatDouble(xs[1]).isEqualTo(6)
+        assertThatDouble(xs[0].t).isEqualTo(4)
+        assertThatDouble(xs[1].t).isEqualTo(6)
     }
 
     @Test
@@ -32,8 +32,8 @@ class SphereTest {
         val s = sphere()
         val xs = s.intersect(r)
         assertThat(xs).hasSize(2)
-        assertThatDouble(xs[0]).isEqualTo(5)
-        assertThatDouble(xs[1]).isEqualTo(5)
+        assertThatDouble(xs[0].t).isEqualTo(5)
+        assertThatDouble(xs[1].t).isEqualTo(5)
     }
 
     @Test
@@ -56,8 +56,8 @@ class SphereTest {
         val s = sphere()
         val xs = s.intersect(r)
         assertThat(xs).hasSize(2)
-        assertThatDouble(xs[0]).isEqualTo(-1)
-        assertThatDouble(xs[1]).isEqualTo(1)
+        assertThatDouble(xs[0].t).isEqualTo(-1)
+        assertThatDouble(xs[1].t).isEqualTo(1)
     }
 
     @Test
@@ -69,7 +69,20 @@ class SphereTest {
         val s = sphere()
         val xs = s.intersect(r)
         assertThat(xs).hasSize(2)
-        assertThatDouble(xs[0]).isEqualTo(-6)
-        assertThatDouble(xs[1]).isEqualTo(-4)
+        assertThatDouble(xs[0].t).isEqualTo(-6)
+        assertThatDouble(xs[1].t).isEqualTo(-4)
+    }
+
+    @Test
+    fun `Intersect sets the object on the intersection` () {
+        val r = ray(
+            point(0, 0, -5),
+            vector(0, 0, 1)
+        )
+        val s = sphere()
+        val xs = s.intersect(r)
+        assertThat(xs).hasSize(2)
+        assertThat(xs[0].obj).isEqualTo(s)
+        assertThat(xs[1].obj).isEqualTo(s)
     }
 }

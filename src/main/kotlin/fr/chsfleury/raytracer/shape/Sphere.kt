@@ -1,5 +1,6 @@
 package fr.chsfleury.raytracer.shape
 
+import fr.chsfleury.raytracer.Intersection
 import fr.chsfleury.raytracer.Ray
 import fr.chsfleury.raytracer.linalg.Vec4
 import kotlin.math.sqrt
@@ -7,8 +8,8 @@ import kotlin.math.sqrt
 data class Sphere(
     val origin: Vec4,
     val radius: Double
-) {
-    fun intersect(ray: Ray): DoubleArray {
+): Shape {
+    fun intersect(ray: Ray): Array<Intersection> {
         val sphereToRay = ray.origin - origin
         val a = ray.direction dot ray.direction
         val b = 2 * (ray.direction dot sphereToRay)
@@ -16,11 +17,11 @@ data class Sphere(
         val discriminant = b * b - 4 * a * c
 
         return if (discriminant < 0) {
-            doubleArrayOf()
+            arrayOf()
         } else {
-            doubleArrayOf(
-                (-b - sqrt(discriminant)) / (2 * a),
-                (-b + sqrt(discriminant)) / (2 * a)
+            arrayOf(
+                Intersection((-b - sqrt(discriminant)) / (2 * a), this),
+                Intersection((-b + sqrt(discriminant)) / (2 * a), this)
             )
         }
     }
