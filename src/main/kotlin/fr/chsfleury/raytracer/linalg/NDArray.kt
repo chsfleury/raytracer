@@ -1,6 +1,7 @@
 package fr.chsfleury.raytracer.linalg
 
 import fr.chsfleury.raytracer.Doubles.neq
+import fr.chsfleury.raytracer.Ray
 
 open class NDArray(
     val width: Int,
@@ -118,6 +119,11 @@ open class NDArray(
     }
 
     operator fun times(other: Vec4): Vec4 = Vec4(times(other.ndArray))
+
+    operator fun times(other: Ray): Ray = Ray(
+        this * other.origin,
+        this * other.direction
+    )
 
     operator fun div(scalar: Double): NDArray = NDArray(width, height) { i ->
         data[i] / scalar
