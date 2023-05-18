@@ -29,7 +29,16 @@ fun translation(x: Number, y: Number, z: Number): NDArray = translation(
     x.toDouble(), y.toDouble(), z.toDouble()
 )
 
-fun scaling(x: Double, y: Double, z: Double) = Transform.scaling(x, y, z)
-fun scaling(x: Number, y: Number, z: Number) = scaling(
+fun scaling(x: Double, y: Double, z: Double): NDArray = Transform.scaling(x, y, z)
+fun scaling(x: Number, y: Number, z: Number): NDArray = scaling(
     x.toDouble(), y.toDouble(), z.toDouble()
+)
+
+fun rotationX(rad: Double): NDArray = Transform.xRotation(rad)
+fun rotationY(rad: Double): NDArray = Transform.yRotation(rad)
+fun rotationZ(rad: Double): NDArray = Transform.zRotation(rad)
+
+fun shearing(xByY: Double, xByZ: Double, yByX: Double, yByZ: Double, zByX: Double, zByY: Double): NDArray = Transform.shearing(xByY, xByZ, yByX, yByZ, zByX, zByY)
+fun shearing(xByY: Number, xByZ: Number, yByX: Number, yByZ: Number, zByX: Number, zByY: Number): NDArray = shearing(
+    xByY.toDouble(), xByZ.toDouble(), yByX.toDouble(), yByZ.toDouble(), zByX.toDouble(), zByY.toDouble()
 )

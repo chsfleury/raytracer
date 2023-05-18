@@ -51,7 +51,7 @@ object Transform {
         0, 0, 0, 1
     )
 
-    fun shearing(xByY: Number, xByZ: Number, yByX: Number, yByZ: Number, zByX: Number, zByY: Number) = Transform.shearing(
+    fun shearing(xByY: Number, xByZ: Number, yByX: Number, yByZ: Number, zByX: Number, zByY: Number) = shearing(
         xByY.toDouble(), xByZ.toDouble(), yByX.toDouble(), yByZ.toDouble(), zByX.toDouble(), zByY.toDouble()
     )
 }
