@@ -28,4 +28,12 @@ data class Sphere(
             )
         }
     }
+
+    fun normalAt(worldPoint: Vec4): Vec4 {
+        val inversedTransform = transform.inverse()
+        val objectPoint = inversedTransform * worldPoint
+        val objectNormal = objectPoint - origin
+        val worldNormal = inversedTransform.transpose() * objectNormal
+        return worldNormal.toVector().normalize()
+    }
 }

@@ -28,6 +28,8 @@ class Vec4(internal val ndArray: NDArray) {
     fun isPoint() = w eq POINT_W
     fun isVector() = w eq VECTOR_W
 
+    fun toVector() = vector(x, y, z)
+
     fun magnitude(): Double = sqrt(x * x + y * y + z * z + w * w)
     fun normalize() = div(magnitude())
 
