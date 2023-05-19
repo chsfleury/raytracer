@@ -3,6 +3,7 @@ package fr.chsfleury.raytracer.exercises.cannon
 import fr.chsfleury.raytracer.Canvas
 import fr.chsfleury.raytracer.Color
 import fr.chsfleury.raytracer.Pixel
+import fr.chsfleury.raytracer.color
 import fr.chsfleury.raytracer.point
 import fr.chsfleury.raytracer.swing.Window
 import fr.chsfleury.raytracer.vector
@@ -30,7 +31,7 @@ object Cannon {
 
         val height = 550
         val canvas = Canvas(900, height)
-        val color = Color(1, 1, 1)
+        val color = color(1, 1, 1)
 
         var projectile = initialProjectile
 

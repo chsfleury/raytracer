@@ -178,4 +178,21 @@ class Vec4Test {
             .isEqualTo(vector(1, -2, 1))
     }
 
+    @Test
+    fun `Reflecting a vector approaching at 45 degrees` () {
+        val v = vector(1, -1, 0)
+        val n = vector(0, 1, 0)
+        val r = v.reflect(n)
+        assertThatVec4(r).isEqualTo(vector(1, 1, 0))
+    }
+
+    @Test
+    fun `Reflecting a vector off a slanted surface` () {
+        val a = sqrt(2.0) / 2
+        val v = vector(0, -1, 0)
+        val n = vector(a, a, 0)
+        val r = v.reflect(n)
+        assertThatVec4(r).isEqualTo(vector(1, 0, 0))
+    }
+
 }

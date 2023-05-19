@@ -6,6 +6,7 @@ import kotlin.math.roundToInt
 object Doubles {
 
     private const val EPSILON = 0.00001
+    val NORMALIZED = 0.0..1.0
 
     infix fun Double.eq(other: Double): Boolean {
         return abs(this - other) < EPSILON

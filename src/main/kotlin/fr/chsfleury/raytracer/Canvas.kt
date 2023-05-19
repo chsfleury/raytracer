@@ -8,7 +8,7 @@ import kotlin.math.roundToInt
 data class Canvas(
     val width: Int,
     val height: Int,
-    val bgColor: Color = Color(0, 0, 0)
+    val bgColor: Color = Color(0.0, 0.0, 0.0)
 ) {
     private val xRange = 0..width
     private val yRange = 0..height

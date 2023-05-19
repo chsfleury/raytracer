@@ -4,12 +4,14 @@ import fr.chsfleury.raytracer.Intersection
 import fr.chsfleury.raytracer.Ray
 import fr.chsfleury.raytracer.linalg.NDArray
 import fr.chsfleury.raytracer.linalg.Vec4
+import fr.chsfleury.raytracer.material.Material
 import kotlin.math.sqrt
 
 data class Sphere(
     val origin: Vec4,
     val radius: Double,
-    var transform: NDArray = NDArray.ID4
+    val material: Material,
+    val transform: NDArray = NDArray.ID4
 ): Shape {
     fun intersect(ray: Ray): List<Intersection> {
         val transformedRay = transform.inverse() * ray

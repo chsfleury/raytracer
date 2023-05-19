@@ -4,6 +4,7 @@ import fr.chsfleury.raytracer.assertions.DoubleAssert.Companion.assertThatDouble
 import fr.chsfleury.raytracer.assertions.NDArrayAssert.Companion.assertThatNDArray
 import fr.chsfleury.raytracer.assertions.Vec4Assert.Companion.assertThatVec4
 import fr.chsfleury.raytracer.linalg.NDArray
+import fr.chsfleury.raytracer.material
 import fr.chsfleury.raytracer.point
 import fr.chsfleury.raytracer.ray
 import fr.chsfleury.raytracer.rotationZ
@@ -102,9 +103,8 @@ class SphereTest {
 
     @Test
     fun `Changing a sphere's transformation` () {
-        val s = sphere()
         val t = translation(2, 3, 4)
-        s.transform = t
+        val s = sphere(transform = t)
         assertThatNDArray(s.transform).isEqualTo(t)
     }
 
@@ -182,5 +182,18 @@ class SphereTest {
         val s = sphere(transform = scaling(1, 0.5, 1) * rotationZ(PI / 5))
         val n = s.normalAt(point(0, a, -a))
         assertThatVec4(n).isEqualTo(vector(0, 0.97014, -0.24254))
+    }
+
+    @Test
+    fun `A sphere has a default material` () {
+        val s = sphere()
+        assertThat(s.material).isEqualTo(material())
+    }
+
+    @Test
+    fun `A sphere may be assigned a material` () {
+        val m = material(1.0)
+        val s = sphere(material = m)
+        assertThat(s.material).isEqualTo(m)
     }
 }

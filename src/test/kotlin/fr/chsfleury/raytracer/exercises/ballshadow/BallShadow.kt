@@ -3,6 +3,7 @@ package fr.chsfleury.raytracer.exercises.ballshadow
 import fr.chsfleury.raytracer.Canvas
 import fr.chsfleury.raytracer.Color
 import fr.chsfleury.raytracer.Intersection.Companion.hit
+import fr.chsfleury.raytracer.color
 import fr.chsfleury.raytracer.point
 import fr.chsfleury.raytracer.ray
 import fr.chsfleury.raytracer.rotationY
@@ -22,7 +23,7 @@ object BallShadow {
         val height = 600
 
         val canvas = Canvas(width, height)
-        val color = Color(1, 0, 0)
+        val color = color(1, 0, 0)
 
 
         val s = sphere(transform = shearing(1, 0, 0, 0, 0, 0) * scaling(0.5, 1, 1))

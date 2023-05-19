@@ -39,10 +39,10 @@ class ColorTest {
 
     @Test
     fun `Multiplying colors` () {
-        val c1 = Color(1, 0.2, 0.4)
-        val c2 = Color(0.9, 1, 0.1)
+        val c1 = color(1, 0.2, 0.4)
+        val c2 = color(0.9, 1, 0.1)
         assertThatColor(c1 * c2)
-            .isEqualTo(Color(0.9, 0.2, 0.04))
+            .isEqualTo(color(0.9, 0.2, 0.04))
     }
 
 }

@@ -1,8 +1,10 @@
 package fr.chsfleury.raytracer
 
+import fr.chsfleury.raytracer.light.PointLight
 import fr.chsfleury.raytracer.linalg.NDArray
 import fr.chsfleury.raytracer.linalg.Transform
 import fr.chsfleury.raytracer.linalg.Vec4
+import fr.chsfleury.raytracer.material.Material
 import fr.chsfleury.raytracer.shape.Shape
 import fr.chsfleury.raytracer.shape.Sphere
 
@@ -17,7 +19,7 @@ fun tuple(x: Number, y: Number, z: Number, w: Number): Vec4 = tuple(x.toDouble()
 
 fun ray(origin: Vec4, direction: Vec4): Ray = Ray(origin, direction)
 
-fun sphere(origin: Vec4 = point(), radius: Double = 1.0, transform: NDArray = NDArray.ID4): Sphere = Sphere(origin, radius, transform)
+fun sphere(origin: Vec4 = point(), radius: Double = 1.0, material: Material = material(), transform: NDArray = NDArray.ID4): Sphere = Sphere(origin, radius, material, transform)
 
 fun intersection(t: Double, obj: Shape): Intersection = Intersection(t, obj)
 fun intersection(t: Number, obj: Shape): Intersection = intersection(t.toDouble(), obj)
@@ -42,3 +44,10 @@ fun shearing(xByY: Double, xByZ: Double, yByX: Double, yByZ: Double, zByX: Doubl
 fun shearing(xByY: Number, xByZ: Number, yByX: Number, yByZ: Number, zByX: Number, zByY: Number): NDArray = shearing(
     xByY.toDouble(), xByZ.toDouble(), yByX.toDouble(), yByZ.toDouble(), zByX.toDouble(), zByY.toDouble()
 )
+
+fun color(r: Double, g: Double, b: Double) = Color(r, g, b)
+fun color(r: Number, g: Number, b: Number) = color(r.toDouble(), g.toDouble(), b.toDouble())
+
+fun pointLight(position: Vec4, intensity: Color = color(1, 1, 1)): PointLight = PointLight(position, intensity)
+
+fun material(ambient: Double = 0.1, diffuse: Double = 0.9, specular: Double = 0.9, shininess: Double = 200.0): Material = Material(color(1, 1, 1), ambient, diffuse, specular, shininess)

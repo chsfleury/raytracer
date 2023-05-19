@@ -58,6 +58,8 @@ class Vec4(internal val ndArray: NDArray) {
     operator fun plus(other: Vec4): Vec4 = Vec4(ndArray + other.ndArray)
     operator fun minus(other: Vec4): Vec4 = Vec4(ndArray - other.ndArray)
 
+    fun reflect(other: Vec4): Vec4 = this - other * 2 * (this dot other)
+
     infix fun eq(other: Vec4): Boolean = ndArray eq other.ndArray
 
     override fun toString() = "($x, $y, $z, $w)"
