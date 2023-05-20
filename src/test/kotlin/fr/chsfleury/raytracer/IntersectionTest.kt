@@ -1,6 +1,7 @@
 package fr.chsfleury.raytracer
 
 import fr.chsfleury.raytracer.assertions.DoubleAssert.Companion.assertThatDouble
+import fr.chsfleury.raytracer.assertions.Vec4Assert.Companion.assertThatVec4
 import org.assertj.core.api.Assertions.assertThat
 import org.junit.jupiter.api.Test
 
@@ -67,4 +68,18 @@ class IntersectionTest {
         assertThat(i).isEqualTo(i4)
     }
 
+    @Test
+    fun `Precomputing the state of an intersection` () {
+        val r = ray(
+            point(0, 0, -5),
+            vector(0, 0, 1)
+        )
+        val shape = sphere()
+        val i = intersection(4, shape)
+        val comps = prepareComputations(i, r)
+        assertThatDouble(comps.t).isEqualTo(i.t)
+        assertThatVec4(comps.point).isEqualTo(point(0, 0, -1))
+        assertThatVec4(comps.eyeVector).isEqualTo(vector(0, 0, -1))
+        assertThatVec4(comps.normalVector).isEqualTo(vector(0, 0, -1))
+    }
 }

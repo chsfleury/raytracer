@@ -69,3 +69,5 @@ fun world(
     ),
     objects: List<Shape> = emptyList()
 ): World = World(light, objects)
+
+fun prepareComputations(intersection: Intersection, ray: Ray) = IntersectionComputation.prepareComputations(intersection, ray)
