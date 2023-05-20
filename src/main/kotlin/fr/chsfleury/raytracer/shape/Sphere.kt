@@ -13,7 +13,7 @@ data class Sphere(
     override val material: Material,
     val transform: NDArray = NDArray.ID4
 ): Shape {
-    fun intersect(ray: Ray): List<Intersection> {
+    override fun intersect(ray: Ray): List<Intersection> {
         val transformedRay = transform.inverse() * ray
         val sphereToRay = transformedRay.origin - origin
         val a = transformedRay.direction dot transformedRay.direction
