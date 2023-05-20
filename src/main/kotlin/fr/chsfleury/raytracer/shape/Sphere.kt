@@ -10,7 +10,7 @@ import kotlin.math.sqrt
 data class Sphere(
     val origin: Vec4,
     val radius: Double,
-    val material: Material,
+    override val material: Material,
     val transform: NDArray = NDArray.ID4
 ): Shape {
     fun intersect(ray: Ray): List<Intersection> {
@@ -31,7 +31,7 @@ data class Sphere(
         }
     }
 
-    fun normalAt(worldPoint: Vec4): Vec4 {
+    override fun normalAt(worldPoint: Vec4): Vec4 {
         val inversedTransform = transform.inverse()
         val objectPoint = inversedTransform * worldPoint
         val objectNormal = objectPoint - origin

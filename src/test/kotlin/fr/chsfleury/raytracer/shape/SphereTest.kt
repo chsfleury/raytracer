@@ -192,7 +192,7 @@ class SphereTest {
 
     @Test
     fun `A sphere may be assigned a material` () {
-        val m = material(1.0)
+        val m = material(ambient = 1.0)
         val s = sphere(material = m)
         assertThat(s.material).isEqualTo(m)
     }

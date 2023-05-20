@@ -50,4 +50,4 @@ fun color(r: Number, g: Number, b: Number) = color(r.toDouble(), g.toDouble(), b
 
 fun pointLight(position: Vec4, intensity: Color = color(1, 1, 1)): PointLight = PointLight(position, intensity)
 
-fun material(ambient: Double = 0.1, diffuse: Double = 0.9, specular: Double = 0.9, shininess: Double = 200.0): Material = Material(color(1, 1, 1), ambient, diffuse, specular, shininess)
+fun material(color: Color = color(1, 1, 1), ambient: Double = 0.1, diffuse: Double = 0.9, specular: Double = 0.9, shininess: Double = 200.0): Material = Material(color, ambient, diffuse, specular, shininess)

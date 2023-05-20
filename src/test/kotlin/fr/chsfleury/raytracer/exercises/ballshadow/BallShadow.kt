@@ -4,11 +4,14 @@ import fr.chsfleury.raytracer.Canvas
 import fr.chsfleury.raytracer.Color
 import fr.chsfleury.raytracer.Intersection.Companion.hit
 import fr.chsfleury.raytracer.color
+import fr.chsfleury.raytracer.material
 import fr.chsfleury.raytracer.point
+import fr.chsfleury.raytracer.pointLight
 import fr.chsfleury.raytracer.ray
 import fr.chsfleury.raytracer.rotationY
 import fr.chsfleury.raytracer.rotationZ
 import fr.chsfleury.raytracer.scaling
+import fr.chsfleury.raytracer.shape.Sphere
 import fr.chsfleury.raytracer.shearing
 import fr.chsfleury.raytracer.sphere
 import fr.chsfleury.raytracer.swing.Window
@@ -19,15 +22,19 @@ object BallShadow {
 
     @JvmStatic
     fun main(args: Array<String>) {
-        val width = 400
-        val height = 600
+        val width = 600
+        val height = 400
 
         val canvas = Canvas(width, height)
-        val color = color(1, 0, 0)
 
+        val material = material(color = color(1, 0.2, 1))
+        val s = sphere(material = material)
 
-        val s = sphere(transform = shearing(1, 0, 0, 0, 0, 0) * scaling(0.5, 1, 1))
-        val light = point(0, 0, -5)
+        val eye = point(0, 0, -5)
+        val light = pointLight(
+            point(-10, 10, -10),
+            color(1, 1, 1)
+        )
         val wallZ = 10.0
         val worldSquareSize = 7.0
         val pixelSize = worldSquareSize / min(width, height)
@@ -46,11 +53,17 @@ object BallShadow {
             repeat(width) { xCanvas ->
                 val x = -halfX + xCanvas * pixelSize
                 val screenPoint = point(x, y, wallZ)
-                val vector = screenPoint - light
-                val r = ray(light, vector.normalize())
+                val vector = screenPoint - eye
+                val r = ray(eye, vector.normalize())
                 val xs = s.intersect(r)
                 hit(xs)?.run {
-                    canvas[xCanvas, yCanvas] = color
+                    val point = r.position(t)
+                    val normal = obj.normalAt(point)
+                    val eyev = -r.direction
+                    canvas[xCanvas, yCanvas] = obj.material.lighting(light, point, eyev, normal)
+                }
+                if (xCanvas % 100 == 0) {
+                    println("($xCanvas, $yCanvas)")
                 }
             }
         }
