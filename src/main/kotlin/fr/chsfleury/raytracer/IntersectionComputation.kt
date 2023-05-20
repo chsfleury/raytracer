@@ -8,24 +8,32 @@ data class IntersectionComputation(
     val obj: Shape,
     val point: Vec4,
     val eyeVector: Vec4,
-    val normalVector: Vec4
+    val normalVector: Vec4,
+    val inside: Boolean
 ) {
-    constructor(intersection: Intersection, point: Vec4, eyeVector: Vec4, normalVector: Vec4) : this(
+    constructor(intersection: Intersection, point: Vec4, eyeVector: Vec4, normalVector: Vec4, inside: Boolean) : this(
         intersection.t,
         intersection.obj,
         point,
         eyeVector,
-        normalVector
+        normalVector,
+        inside
     )
 
     companion object {
 
-        fun prepareComputations(intersection: Intersection, ray: Ray): IntersectionComputation = ray.position(intersection.t).let { point ->
-            IntersectionComputation(
+        fun prepareComputations(intersection: Intersection, ray: Ray): IntersectionComputation {
+            val point = ray.position(intersection.t)
+            val normalV = intersection.obj.normalAt(point)
+            val eyeV = -ray.direction
+            val dotNormalEye = normalV dot eyeV
+            val inside = dotNormalEye < 0
+            return IntersectionComputation(
                 intersection,
                 point,
-                -ray.direction,
-                intersection.obj.normalAt(point)
+                eyeV,
+                if (inside) -normalV else normalV,
+                inside
             )
         }
 

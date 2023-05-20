@@ -82,4 +82,31 @@ class IntersectionTest {
         assertThatVec4(comps.eyeVector).isEqualTo(vector(0, 0, -1))
         assertThatVec4(comps.normalVector).isEqualTo(vector(0, 0, -1))
     }
+
+    @Test
+    fun `The hit, when an intersection occurs on the outside` () {
+        val r = ray(
+            point(0, 0, -5),
+            vector(0, 0, 1)
+        )
+        val shape = sphere()
+        val i = intersection(4, shape)
+        val comps = prepareComputations(i, r)
+        assertThat(comps.inside).isFalse()
+    }
+
+    @Test
+    fun `The hit, when an intersection occurs on the inside` () {
+        val r = ray(
+            point(0, 0, 0),
+            vector(0, 0, 1)
+        )
+        val shape = sphere()
+        val i = intersection(1, shape)
+        val comps = prepareComputations(i, r)
+        assertThatVec4(comps.point).isEqualTo(point(0, 0, 1))
+        assertThatVec4(comps.eyeVector).isEqualTo(vector(0, 0, -1))
+        assertThatVec4(comps.normalVector).isEqualTo(vector(0, 0, -1))
+        assertThat(comps.inside).isTrue()
+    }
 }
