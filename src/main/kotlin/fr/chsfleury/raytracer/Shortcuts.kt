@@ -2,12 +2,14 @@ package fr.chsfleury.raytracer
 
 import fr.chsfleury.raytracer.light.PointLight
 import fr.chsfleury.raytracer.linalg.NDArray
+import fr.chsfleury.raytracer.linalg.NDArray.Companion.ID4
 import fr.chsfleury.raytracer.linalg.Transform
 import fr.chsfleury.raytracer.linalg.Vec4
 import fr.chsfleury.raytracer.material.Material
 import fr.chsfleury.raytracer.shape.Shape
 import fr.chsfleury.raytracer.shape.Sphere
 import fr.chsfleury.raytracer.world.World
+import kotlin.math.PI
 
 fun point(x: Double, y: Double, z: Double): Vec4 = Vec4.point(x, y, z)
 fun point(x: Number = 0.0, y: Number = 0.0, z: Number = 0.0): Vec4 = point(x.toDouble(), y.toDouble(), z.toDouble())
@@ -71,3 +73,7 @@ fun world(
 ): World = World(light, objects)
 
 fun prepareComputations(intersection: Intersection, ray: Ray) = IntersectionComputation.prepareComputations(intersection, ray)
+
+fun viewTransform(from: Vec4, to: Vec4, up: Vec4): NDArray = Transform.viewTransform(from, to, up)
+
+fun camera(hSize: Int, vSize: Int, fieldOfView: Double = PI / 2, transform: NDArray = ID4) = Camera(hSize, vSize, fieldOfView, transform)

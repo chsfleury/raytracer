@@ -21,4 +21,8 @@ class NDArrayAssert(actual: NDArray): AbstractAssert<NDArrayAssert, NDArray>(act
             failWithMessage("Actual NDArray equals to expected one")
         }
     }
+
+    fun isIdentity() = also {
+        isEqualTo(NDArray.identity(actual.width))
+    }
 }

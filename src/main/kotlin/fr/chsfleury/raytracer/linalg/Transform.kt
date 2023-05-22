@@ -1,5 +1,6 @@
 package fr.chsfleury.raytracer.linalg
 
+import fr.chsfleury.raytracer.linalg.NDArray.Companion.ID4
 import kotlin.math.cos
 import kotlin.math.sin
 
@@ -54,4 +55,31 @@ object Transform {
     fun shearing(xByY: Number, xByZ: Number, yByX: Number, yByZ: Number, zByX: Number, zByY: Number) = shearing(
         xByY.toDouble(), xByZ.toDouble(), yByX.toDouble(), yByZ.toDouble(), zByX.toDouble(), zByY.toDouble()
     )
+
+    fun viewTransform(from: Vec4, to: Vec4, up: Vec4): NDArray {
+        if (!from.isPoint()) {
+            error("from must be a point")
+        }
+
+        if (!to.isPoint()) {
+            error("to must be a point")
+        }
+
+        if (!up.isVector()) {
+            error("up must be a vector")
+        }
+
+        val forward = (to - from).normalize()
+        val normalizedUp = up.normalize()
+        val left = forward cross normalizedUp
+        val trueUp = left cross forward
+
+        val orientation = NDArray.of4x4(
+            left.x, left.y, left.z, 0,
+            trueUp.x, trueUp.y, trueUp.z, 0,
+            -forward.x, -forward.y, -forward.z, 0,
+            0, 0, 0, 1
+        )
+        return orientation * translation(-from.x, -from.y, -from.z)
+    }
 }
