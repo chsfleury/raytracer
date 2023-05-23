@@ -20,10 +20,10 @@ data class World(
         .toList()
 
     fun shadeHit(computations: IntersectionComputation): Color {
-        val shadowed = false //isShadowed(computations.overPoint)
+        val shadowed = isShadowed(computations.overPoint)
         return computations.obj.material.lighting(
             light,
-            computations.point,
+            computations.overPoint,
             computations.eyeVector,
             computations.normalVector,
             shadowed

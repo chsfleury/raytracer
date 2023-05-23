@@ -31,12 +31,13 @@ data class IntersectionComputation(
             val eyeV = -ray.direction
             val dotNormalEye = normalV dot eyeV
             val inside = dotNormalEye < 0
-            val overPoint = point + normalV * EPSILON
+            val finalNormalV = if (inside) -normalV else normalV
+            val overPoint = point + (finalNormalV * EPSILON)
             return IntersectionComputation(
                 intersection,
                 point,
                 eyeV,
-                if (inside) -normalV else normalV,
+                finalNormalV,
                 inside,
                 overPoint
             )
