@@ -11,6 +11,8 @@ class Vec4(internal val ndArray: NDArray) {
         const val POINT_W = 1.0
         const val VECTOR_W = 0.0
 
+        val ORIGIN = point(0.0, 0.0, 0.0)
+
         fun tuple(x: Double, y: Double, z: Double, w: Double) = Vec4(x, y, z, w)
         fun vector(x: Double, y: Double, z: Double) = Vec4(x, y, z, VECTOR_W)
         fun point(x: Double, y: Double, z: Double) = Vec4(x, y, z, POINT_W)

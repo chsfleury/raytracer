@@ -11,6 +11,7 @@ import fr.chsfleury.raytracer.prepareComputations
 import fr.chsfleury.raytracer.ray
 import fr.chsfleury.raytracer.scaling
 import fr.chsfleury.raytracer.sphere
+import fr.chsfleury.raytracer.translation
 import fr.chsfleury.raytracer.vector
 import fr.chsfleury.raytracer.world
 import org.assertj.core.api.Assertions.assertThat
@@ -114,6 +115,58 @@ class WorldTest {
             vector(0, 0, -1)
         )
         assertThatColor(w.colorAt(r)).isEqualTo(s2.material.color)
+    }
+
+    @Test
+    fun `There is no shadow when nothing is collinear with point and light` () {
+        val w = defaultWorld
+        val p = point(0, 10, 0)
+        assertThat(w.isShadowed(p)).isFalse()
+    }
+
+    @Test
+    fun `The shadow when an object is between the point and the light` () {
+        val w = defaultWorld
+        val p = point(10, -10, 10)
+        assertThat(w.isShadowed(p)).isTrue()
+    }
+
+    @Test
+    fun `There is no shadow when an object is behind the light` () {
+        val w = defaultWorld
+        val p = point(-20, 20, -20)
+        assertThat(w.isShadowed(p)).isFalse()
+    }
+
+    @Test
+    fun `There is no shadow when an object is behind the point` () {
+        val w = defaultWorld
+        val p = point(-2, 2, -2)
+        assertThat(w.isShadowed(p)).isFalse()
+    }
+
+    @Test
+    fun `shade_hit() is given an intersection in shadow` () {
+        val s2 = sphere(
+            transform = translation(0, 0, 10)
+        )
+        val w = world(
+            light = pointLight(
+                point(0, 0, -10),
+                color(1, 1, 1)
+            ),
+            objects = listOf(
+                sphere(),
+                s2
+            )
+        )
+        val r = ray(
+            point(0, 0, 5),
+            vector(0, 0, 1)
+        )
+        val i = intersection(4, s2)
+        val comps = prepareComputations(i, r)
+        assertThatColor(w.shadeHit(comps)).isEqualTo(color(0.1, 0.1, 0.1))
     }
 
 }

@@ -33,7 +33,7 @@ class MaterialTest {
             point(0, 0, -10),
             color(1, 1, 1)
         )
-        val result = m.lighting(light, position, eyev, normalv)
+        val result = m.lighting(light, position, eyev, normalv, false)
         assertThatColor(result).isEqualTo(color(1.9, 1.9, 1.9))
     }
 
@@ -46,7 +46,7 @@ class MaterialTest {
             point(0, 0, -10),
             color(1, 1, 1)
         )
-        val result = m.lighting(light, position, eyev, normalv)
+        val result = m.lighting(light, position, eyev, normalv, false)
         assertThatColor(result).isEqualTo(color(1.0, 1.0, 1.0))
     }
 
@@ -58,7 +58,7 @@ class MaterialTest {
             point(0, 10, -10),
             color(1, 1, 1)
         )
-        val result = m.lighting(light, position, eyev, normalv)
+        val result = m.lighting(light, position, eyev, normalv, false)
         assertThatColor(result).isEqualTo(color(0.7364, 0.7364, 0.7364))
     }
 
@@ -71,7 +71,7 @@ class MaterialTest {
             point(0, 10, -10),
             color(1, 1, 1)
         )
-        val result = m.lighting(light, position, eyev, normalv)
+        val result = m.lighting(light, position, eyev, normalv, false)
         assertThatColor(result).isEqualTo(color(1.6364, 1.6364, 1.6364))
     }
 
@@ -83,7 +83,19 @@ class MaterialTest {
             point(0, 0, 10),
             color(1, 1, 1)
         )
-        val result = m.lighting(light, position, eyev, normalv)
+        val result = m.lighting(light, position, eyev, normalv, false)
         assertThatColor(result).isEqualTo(color(0.1, 0.1, 0.1))
+    }
+
+    @Test
+    fun `Lighting with the surface in shadow` () {
+        val eyeV = vector(0, 0, -1)
+        val normalV = vector(0, 0, -1)
+        val light = pointLight(
+            point(0, 0, -10),
+            color(1, 1, 1)
+        )
+        val inShadow = true
+        assertThatColor(m.lighting(light, position, eyeV, normalV, inShadow)).isEqualTo(color(0.1, 0.1, 0.1))
     }
 }

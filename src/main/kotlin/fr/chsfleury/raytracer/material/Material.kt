@@ -31,13 +31,13 @@ data class Material(
         }
     }
 
-    fun lighting(light: PointLight, point: Vec4, eyeVector: Vec4, normalVector: Vec4): Color {
+    fun lighting(light: PointLight, point: Vec4, eyeVector: Vec4, normalVector: Vec4, inShadow: Boolean): Color {
         val effectiveColor = color * light.intensity
         val lightv = (light.position - point).normalize()
         val currentAmbient = effectiveColor * ambient
 
         val lightDotNormal = lightv dot normalVector
-        val (currentDiffuse, currentSpecular) = if (lightDotNormal < 0) {
+        val (currentDiffuse, currentSpecular) = if (lightDotNormal < 0 || inShadow) {
             Pair(Color.BLACK, Color.BLACK)
         } else {
             val currentDiffuse = effectiveColor * diffuse * lightDotNormal

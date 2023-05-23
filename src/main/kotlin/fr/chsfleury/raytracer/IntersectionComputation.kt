@@ -1,5 +1,6 @@
 package fr.chsfleury.raytracer
 
+import fr.chsfleury.raytracer.Doubles.EPSILON
 import fr.chsfleury.raytracer.linalg.Vec4
 import fr.chsfleury.raytracer.shape.Shape
 
@@ -9,15 +10,17 @@ data class IntersectionComputation(
     val point: Vec4,
     val eyeVector: Vec4,
     val normalVector: Vec4,
-    val inside: Boolean
+    val inside: Boolean,
+    val overPoint: Vec4
 ) {
-    constructor(intersection: Intersection, point: Vec4, eyeVector: Vec4, normalVector: Vec4, inside: Boolean) : this(
+    constructor(intersection: Intersection, point: Vec4, eyeVector: Vec4, normalVector: Vec4, inside: Boolean, overPoint: Vec4) : this(
         intersection.t,
         intersection.obj,
         point,
         eyeVector,
         normalVector,
-        inside
+        inside,
+        overPoint
     )
 
     companion object {
@@ -28,12 +31,14 @@ data class IntersectionComputation(
             val eyeV = -ray.direction
             val dotNormalEye = normalV dot eyeV
             val inside = dotNormalEye < 0
+            val overPoint = point + normalV * EPSILON
             return IntersectionComputation(
                 intersection,
                 point,
                 eyeV,
                 if (inside) -normalV else normalV,
-                inside
+                inside,
+                overPoint
             )
         }
 

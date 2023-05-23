@@ -1,5 +1,6 @@
 package fr.chsfleury.raytracer
 
+import fr.chsfleury.raytracer.Doubles.EPSILON
 import fr.chsfleury.raytracer.assertions.DoubleAssert.Companion.assertThatDouble
 import fr.chsfleury.raytracer.assertions.Vec4Assert.Companion.assertThatVec4
 import org.assertj.core.api.Assertions.assertThat
@@ -108,5 +109,20 @@ class IntersectionTest {
         assertThatVec4(comps.eyeVector).isEqualTo(vector(0, 0, -1))
         assertThatVec4(comps.normalVector).isEqualTo(vector(0, 0, -1))
         assertThat(comps.inside).isTrue()
+    }
+
+    @Test
+    fun `The hit should offset the point` () {
+        val r = ray(
+            point(0, 0, -5),
+            vector(0, 0, 1)
+        )
+        val shape = sphere(
+            transform = translation(0, 0, 1)
+        )
+        val i = intersection(5, shape)
+        val comps = prepareComputations(i, r)
+        assertThat(comps.overPoint.z).isLessThan(-EPSILON / 2)
+        assertThat(comps.point.z).isGreaterThan(comps.overPoint.z)
     }
 }

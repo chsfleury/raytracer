@@ -22,8 +22,8 @@ fun tuple(x: Number, y: Number, z: Number, w: Number): Vec4 = tuple(x.toDouble()
 
 fun ray(origin: Vec4, direction: Vec4): Ray = Ray(origin, direction)
 
-fun sphere(origin: Vec4 = point(), radius: Double = 1.0, material: Material = material(), transform: NDArray = NDArray.ID4): Sphere =
-    Sphere(origin, radius, material, transform)
+fun sphere(material: Material = material(), transform: NDArray = ID4): Sphere =
+    Sphere(material, transform)
 
 fun intersection(t: Double, obj: Shape): Intersection = Intersection(t, obj)
 fun intersection(t: Number, obj: Shape): Intersection = intersection(t.toDouble(), obj)
