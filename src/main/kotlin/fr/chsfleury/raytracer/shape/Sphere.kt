@@ -10,7 +10,7 @@ import kotlin.math.sqrt
 
 data class Sphere(
     override val material: Material,
-    val transform: NDArray = NDArray.ID4
+    override val transform: NDArray = NDArray.ID4
 ): Shape {
     override fun intersect(ray: Ray): List<Intersection> {
         val transformedRay = transform.inverse() * ray
