@@ -8,7 +8,10 @@ import fr.chsfleury.raytracer.linalg.NDArray.Companion.ID4
 import fr.chsfleury.raytracer.linalg.Transform
 import fr.chsfleury.raytracer.linalg.Vec4
 import fr.chsfleury.raytracer.material.Material
+import fr.chsfleury.raytracer.pattern.CheckersPattern
+import fr.chsfleury.raytracer.pattern.GradientPattern
 import fr.chsfleury.raytracer.pattern.Pattern
+import fr.chsfleury.raytracer.pattern.RingPattern
 import fr.chsfleury.raytracer.pattern.StripePattern
 import fr.chsfleury.raytracer.shape.Plane
 import fr.chsfleury.raytracer.shape.Shape
@@ -87,3 +90,8 @@ fun camera(hSize: Int, vSize: Int, fieldOfView: Double = PI / 2, transform: NDAr
 fun plane(material: Material = material(), transform: NDArray = ID4): Plane = Plane(material, transform)
 
 fun stripePattern(colorA: Color = WHITE, colorB: Color = BLACK, transform: NDArray = ID4): StripePattern = StripePattern(colorA, colorB, transform)
+
+fun gradientPattern(colorA: Color = WHITE, colorB: Color = BLACK, transform: NDArray = ID4): GradientPattern = GradientPattern(colorA, colorB, transform)
+fun ringPattern(colorA: Color = WHITE, colorB: Color = BLACK, transform: NDArray = ID4): RingPattern = RingPattern(colorA, colorB, transform)
+
+fun checkersPattern(colorA: Color = WHITE, colorB: Color = BLACK, transform: NDArray = ID4): CheckersPattern = CheckersPattern(colorA, colorB, transform)
