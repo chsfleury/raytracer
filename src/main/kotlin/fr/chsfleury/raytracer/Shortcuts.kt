@@ -11,6 +11,7 @@ import fr.chsfleury.raytracer.material.Material
 import fr.chsfleury.raytracer.pattern.CheckersPattern
 import fr.chsfleury.raytracer.pattern.GradientPattern
 import fr.chsfleury.raytracer.pattern.Pattern
+import fr.chsfleury.raytracer.pattern.RadialGradientPattern
 import fr.chsfleury.raytracer.pattern.RingPattern
 import fr.chsfleury.raytracer.pattern.StripePattern
 import fr.chsfleury.raytracer.shape.Plane
@@ -95,3 +96,5 @@ fun gradientPattern(colorA: Color = WHITE, colorB: Color = BLACK, transform: NDA
 fun ringPattern(colorA: Color = WHITE, colorB: Color = BLACK, transform: NDArray = ID4): RingPattern = RingPattern(colorA, colorB, transform)
 
 fun checkersPattern(colorA: Color = WHITE, colorB: Color = BLACK, transform: NDArray = ID4): CheckersPattern = CheckersPattern(colorA, colorB, transform)
+
+fun radialGradientPattern(colorA: Color = WHITE, colorB: Color = BLACK, transform: NDArray = ID4): RadialGradientPattern = RadialGradientPattern(colorA, colorB, transform)
