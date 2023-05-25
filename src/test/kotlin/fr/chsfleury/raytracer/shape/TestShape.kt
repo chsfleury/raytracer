@@ -11,8 +11,6 @@ class TestShape(
     override val material: Material = material(),
     override val transform: NDArray = NDArray.ID4
 ) : Shape {
-    override val invT: NDArray = transform.inverse()
-    override val trInvT: NDArray = invT.transpose()
 
     lateinit var savedRay: Ray
 

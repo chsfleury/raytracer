@@ -12,9 +12,6 @@ data class Sphere(
     override val material: Material,
     override val transform: NDArray = NDArray.ID4
 ): Shape {
-    override val invT: NDArray = transform.inverse()
-    override val trInvT: NDArray = invT.transpose()
-
 
     override fun localIntersect(localRay: Ray): List<Intersection> {
         val sphereToRay = localRay.origin - ORIGIN

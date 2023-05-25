@@ -9,22 +9,20 @@ import fr.chsfleury.raytracer.material.Material
 interface Shape {
     val material: Material
     val transform: NDArray
-    val invT: NDArray
-    val trInvT: NDArray
 
     fun localIntersect(localRay: Ray): List<Intersection>
 
     fun intersect(ray: Ray): List<Intersection> {
-        val localRay = invT * ray
+        val localRay = transform.inv * ray
         return localIntersect(localRay)
     }
 
     fun localNormalAt(localPoint: Vec4): Vec4
 
     fun normalAt(point: Vec4): Vec4 {
-        val localPoint = invT * point
+        val localPoint = transform.inv * point
         val localNormal = localNormalAt(localPoint)
-        val worldNormal = trInvT * localNormal
+        val worldNormal = transform.trInv * localNormal
         return worldNormal.toVector().normalize()
     }
 }

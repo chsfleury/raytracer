@@ -14,6 +14,9 @@ open class NDArray(
         }
     }
 
+    val inv by lazy(::inverse)
+    val trInv by lazy { inv.transpose() }
+
     constructor(width: Int, height: Int, init: (Int) -> Double) : this(
         width, height, DoubleArray(width * height, init)
     )

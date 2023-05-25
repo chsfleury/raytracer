@@ -6,6 +6,7 @@ import fr.chsfleury.raytracer.color
 import fr.chsfleury.raytracer.material
 import fr.chsfleury.raytracer.point
 import fr.chsfleury.raytracer.pointLight
+import fr.chsfleury.raytracer.sphere
 import fr.chsfleury.raytracer.vector
 import org.junit.jupiter.api.Test
 import kotlin.math.sqrt
@@ -33,7 +34,7 @@ class MaterialTest {
             point(0, 0, -10),
             color(1, 1, 1)
         )
-        val result = m.lighting(light, position, eyev, normalv, false)
+        val result = m.lighting(sphere(), light, position, eyev, normalv, false)
         assertThatColor(result).isEqualTo(color(1.9, 1.9, 1.9))
     }
 
@@ -46,7 +47,7 @@ class MaterialTest {
             point(0, 0, -10),
             color(1, 1, 1)
         )
-        val result = m.lighting(light, position, eyev, normalv, false)
+        val result = m.lighting(sphere(), light, position, eyev, normalv, false)
         assertThatColor(result).isEqualTo(color(1.0, 1.0, 1.0))
     }
 
@@ -58,7 +59,7 @@ class MaterialTest {
             point(0, 10, -10),
             color(1, 1, 1)
         )
-        val result = m.lighting(light, position, eyev, normalv, false)
+        val result = m.lighting(sphere(), light, position, eyev, normalv, false)
         assertThatColor(result).isEqualTo(color(0.7364, 0.7364, 0.7364))
     }
 
@@ -71,7 +72,7 @@ class MaterialTest {
             point(0, 10, -10),
             color(1, 1, 1)
         )
-        val result = m.lighting(light, position, eyev, normalv, false)
+        val result = m.lighting(sphere(), light, position, eyev, normalv, false)
         assertThatColor(result).isEqualTo(color(1.6364, 1.6364, 1.6364))
     }
 
@@ -83,7 +84,7 @@ class MaterialTest {
             point(0, 0, 10),
             color(1, 1, 1)
         )
-        val result = m.lighting(light, position, eyev, normalv, false)
+        val result = m.lighting(sphere(), light, position, eyev, normalv, false)
         assertThatColor(result).isEqualTo(color(0.1, 0.1, 0.1))
     }
 
@@ -96,6 +97,6 @@ class MaterialTest {
             color(1, 1, 1)
         )
         val inShadow = true
-        assertThatColor(m.lighting(light, position, eyeV, normalV, inShadow)).isEqualTo(color(0.1, 0.1, 0.1))
+        assertThatColor(m.lighting(sphere(), light, position, eyeV, normalV, inShadow)).isEqualTo(color(0.1, 0.1, 0.1))
     }
 }

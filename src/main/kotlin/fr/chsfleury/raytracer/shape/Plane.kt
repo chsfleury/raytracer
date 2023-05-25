@@ -12,8 +12,6 @@ data class Plane(
     override val material: Material,
     override val transform: NDArray
 ): Shape {
-    override val invT: NDArray = transform.inverse()
-    override val trInvT: NDArray = invT.transpose()
 
     override fun localIntersect(localRay: Ray): List<Intersection> {
         if (abs(localRay.direction.y) < EPSILON) {

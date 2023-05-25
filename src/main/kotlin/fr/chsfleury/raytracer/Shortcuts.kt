@@ -86,4 +86,4 @@ fun camera(hSize: Int, vSize: Int, fieldOfView: Double = PI / 2, transform: NDAr
 
 fun plane(material: Material = material(), transform: NDArray = ID4): Plane = Plane(material, transform)
 
-fun stripePattern(colorA: Color = WHITE, colorB: Color = BLACK): StripePattern = StripePattern(colorA, colorB)
+fun stripePattern(colorA: Color = WHITE, colorB: Color = BLACK, transform: NDArray = ID4): StripePattern = StripePattern(colorA, colorB, transform)
