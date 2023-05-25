@@ -35,7 +35,7 @@ data class Material(
     }
 
     fun lighting(obj: Shape, light: PointLight, point: Vec4, eyeVector: Vec4, normalVector: Vec4, inShadow: Boolean): Color {
-        val currentColor = pattern?.colorAtObject(obj, point) ?: color
+        val currentColor = pattern?.patternAtShape(obj, point) ?: color
 
         val effectiveColor = currentColor * light.intensity
         val lightv = (light.position - point).normalize()

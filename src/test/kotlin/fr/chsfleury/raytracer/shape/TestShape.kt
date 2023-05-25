@@ -7,7 +7,7 @@ import fr.chsfleury.raytracer.linalg.Vec4
 import fr.chsfleury.raytracer.material
 import fr.chsfleury.raytracer.material.Material
 
-class TestShape(
+data class TestShape(
     override val material: Material = material(),
     override val transform: NDArray = NDArray.ID4
 ) : Shape {

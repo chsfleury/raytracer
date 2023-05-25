@@ -11,21 +11,9 @@ data class StripePattern(
     val colorB: Color,
     override val transform: NDArray
 ): Pattern {
-    override fun colorAt(point: Vec4): Color = if (floor(point.x).toInt() % 2 == 0) {
+    override fun patternAt(point: Vec4): Color = if (floor(point.x).toInt() % 2 == 0) {
         colorA
     } else {
         colorB
-    }
-
-    override fun colorAtObject(obj: Shape, point: Vec4): Color {
-        return colorAt(point)
-    }
-
-    fun stripeAt(point: Vec4) = colorAt(point)
-
-    fun stripeAtObject(obj: Shape, point: Vec4): Color {
-        val objectPoint = obj.transform.inv * point
-        val patternPoint = transform.inv * objectPoint
-        return stripeAt(patternPoint)
     }
 }
