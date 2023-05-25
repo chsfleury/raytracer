@@ -27,6 +27,8 @@ class Vec4(internal val ndArray: NDArray) {
     val w: Double
         get() = ndArray.data[3]
 
+    fun copy(newX: Double = x, newY: Double = y, newZ: Double = z, newW: Double = w): Vec4 = Vec4(newX, newY, newZ, newW)
+
     fun isPoint() = w eq POINT_W
     fun isVector() = w eq VECTOR_W
 

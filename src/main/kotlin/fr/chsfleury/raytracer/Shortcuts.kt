@@ -6,6 +6,7 @@ import fr.chsfleury.raytracer.linalg.NDArray.Companion.ID4
 import fr.chsfleury.raytracer.linalg.Transform
 import fr.chsfleury.raytracer.linalg.Vec4
 import fr.chsfleury.raytracer.material.Material
+import fr.chsfleury.raytracer.shape.Plane
 import fr.chsfleury.raytracer.shape.Shape
 import fr.chsfleury.raytracer.shape.Sphere
 import fr.chsfleury.raytracer.world.World
@@ -77,3 +78,5 @@ fun prepareComputations(intersection: Intersection, ray: Ray) = IntersectionComp
 fun viewTransform(from: Vec4, to: Vec4, up: Vec4): NDArray = Transform.viewTransform(from, to, up)
 
 fun camera(hSize: Int, vSize: Int, fieldOfView: Double = PI / 2, transform: NDArray = ID4) = Camera(hSize, vSize, fieldOfView, transform)
+
+fun plane(material: Material = material(), transform: NDArray = ID4): Plane = Plane(material, transform)

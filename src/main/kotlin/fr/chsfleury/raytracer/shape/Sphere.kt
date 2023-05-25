@@ -12,11 +12,14 @@ data class Sphere(
     override val material: Material,
     override val transform: NDArray = NDArray.ID4
 ): Shape {
-    override fun intersect(ray: Ray): List<Intersection> {
-        val transformedRay = transform.inverse() * ray
-        val sphereToRay = transformedRay.origin - ORIGIN
-        val a = transformedRay.direction dot transformedRay.direction
-        val b = 2 * (transformedRay.direction dot sphereToRay)
+    override val invT: NDArray = transform.inverse()
+    override val trInvT: NDArray = invT.transpose()
+
+
+    override fun localIntersect(localRay: Ray): List<Intersection> {
+        val sphereToRay = localRay.origin - ORIGIN
+        val a = localRay.direction dot localRay.direction
+        val b = 2 * (localRay.direction dot sphereToRay)
         val c = (sphereToRay dot sphereToRay) - 1
         val discriminant = b * b - 4 * a * c
 
@@ -30,11 +33,7 @@ data class Sphere(
         }
     }
 
-    override fun normalAt(worldPoint: Vec4): Vec4 {
-        val inversedTransform = transform.inverse()
-        val objectPoint = inversedTransform * worldPoint
-        val objectNormal = objectPoint - ORIGIN
-        val worldNormal = inversedTransform.transpose() * objectNormal
-        return worldNormal.toVector().normalize()
+    override fun localNormalAt(localPoint: Vec4): Vec4 {
+        return localPoint - ORIGIN
     }
 }
