@@ -4,10 +4,12 @@ import fr.chsfleury.raytracer.Color
 import fr.chsfleury.raytracer.Doubles.NORMALIZED
 import fr.chsfleury.raytracer.light.PointLight
 import fr.chsfleury.raytracer.linalg.Vec4
+import fr.chsfleury.raytracer.pattern.Pattern
 import kotlin.math.pow
 
 data class Material(
     val color: Color,
+    val pattern: Pattern?,
     val ambient: Double,
     val diffuse: Double,
     val specular: Double,
@@ -32,7 +34,9 @@ data class Material(
     }
 
     fun lighting(light: PointLight, point: Vec4, eyeVector: Vec4, normalVector: Vec4, inShadow: Boolean): Color {
-        val effectiveColor = color * light.intensity
+        val currentColor = pattern?.colorAt(point) ?: color
+
+        val effectiveColor = currentColor * light.intensity
         val lightv = (light.position - point).normalize()
         val currentAmbient = effectiveColor * ambient
 

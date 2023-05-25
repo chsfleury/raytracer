@@ -11,6 +11,7 @@ data class Color (
 ) {
     companion object {
         val BLACK = Color(0.0, 0.0, 0.0)
+        val WHITE = Color(1.0, 1.0, 1.0)
     }
 
     infix fun eq(other: Color): Boolean {

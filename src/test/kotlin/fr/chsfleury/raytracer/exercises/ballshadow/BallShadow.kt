@@ -6,6 +6,7 @@ import fr.chsfleury.raytracer.Intersection.Companion.hit
 import fr.chsfleury.raytracer.camera
 import fr.chsfleury.raytracer.color
 import fr.chsfleury.raytracer.material
+import fr.chsfleury.raytracer.plane
 import fr.chsfleury.raytracer.point
 import fr.chsfleury.raytracer.pointLight
 import fr.chsfleury.raytracer.ray
@@ -36,20 +37,22 @@ object BallShadow {
             specular = 0.0
         )
 
-        val floor = sphere(
-            transform = scaling(10, 0.01, 10),
-            material = wallMaterial
-        )
+//        val floor = sphere(
+//            transform = scaling(10, 0.01, 10),
+//            material = wallMaterial
+//        )
+//
+//        val leftWall = sphere(
+//            transform = translation(0, 0, 5) * rotationY(-PI / 4) * rotationX(PI / 2) * scaling(10, 0.01, 10),
+//            material = wallMaterial
+//        )
+//
+//        val rightWall = sphere(
+//            transform = translation(0, 0, 5) * rotationY(PI / 4) * rotationX(PI / 2) * scaling(10, 0.01, 10),
+//            material = wallMaterial
+//        )
 
-        val leftWall = sphere(
-            transform = translation(0, 0, 5) * rotationY(-PI / 4) * rotationX(PI / 2) * scaling(10, 0.01, 10),
-            material = wallMaterial
-        )
-
-        val rightWall = sphere(
-            transform = translation(0, 0, 5) * rotationY(PI / 4) * rotationX(PI / 2) * scaling(10, 0.01, 10),
-            material = wallMaterial
-        )
+        val floor = plane(material = wallMaterial)
 
         val middle = sphere(
             transform = translation(-0.5, 1, 0.5),
@@ -83,7 +86,8 @@ object BallShadow {
                 point(-10, 10, -10),
                 color(1, 1, 1)
             ),
-            listOf(floor, leftWall, rightWall, middle, right, left)
+            //listOf(floor, leftWall, rightWall, middle, right, left)
+            listOf(floor, middle, right, left)
         )
 
         val camera = camera(

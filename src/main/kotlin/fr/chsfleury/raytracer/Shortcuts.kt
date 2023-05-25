@@ -1,11 +1,15 @@
 package fr.chsfleury.raytracer
 
+import fr.chsfleury.raytracer.Color.Companion.BLACK
+import fr.chsfleury.raytracer.Color.Companion.WHITE
 import fr.chsfleury.raytracer.light.PointLight
 import fr.chsfleury.raytracer.linalg.NDArray
 import fr.chsfleury.raytracer.linalg.NDArray.Companion.ID4
 import fr.chsfleury.raytracer.linalg.Transform
 import fr.chsfleury.raytracer.linalg.Vec4
 import fr.chsfleury.raytracer.material.Material
+import fr.chsfleury.raytracer.pattern.Pattern
+import fr.chsfleury.raytracer.pattern.StripePattern
 import fr.chsfleury.raytracer.shape.Plane
 import fr.chsfleury.raytracer.shape.Shape
 import fr.chsfleury.raytracer.shape.Sphere
@@ -59,11 +63,12 @@ fun pointLight(position: Vec4, intensity: Color = color(1, 1, 1)): PointLight = 
 
 fun material(
     color: Color = color(1, 1, 1),
+    pattern: Pattern? = null,
     ambient: Double = 0.1,
     diffuse: Double = 0.9,
     specular: Double = 0.9,
     shininess: Double = 200.0
-): Material = Material(color, ambient, diffuse, specular, shininess)
+): Material = Material(color, pattern, ambient, diffuse, specular, shininess)
 
 fun world(
     light: PointLight = pointLight(
@@ -80,3 +85,5 @@ fun viewTransform(from: Vec4, to: Vec4, up: Vec4): NDArray = Transform.viewTrans
 fun camera(hSize: Int, vSize: Int, fieldOfView: Double = PI / 2, transform: NDArray = ID4) = Camera(hSize, vSize, fieldOfView, transform)
 
 fun plane(material: Material = material(), transform: NDArray = ID4): Plane = Plane(material, transform)
+
+fun stripePattern(colorA: Color = WHITE, colorB: Color = BLACK): StripePattern = StripePattern(colorA, colorB)
