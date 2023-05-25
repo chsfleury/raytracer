@@ -1,6 +1,5 @@
 package fr.chsfleury.raytracer.linalg
 
-import fr.chsfleury.raytracer.linalg.NDArray.Companion.ID4
 import kotlin.math.cos
 import kotlin.math.sin
 

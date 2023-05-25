@@ -1,7 +1,6 @@
 package fr.chsfleury.raytracer.exercises.clock
 
 import fr.chsfleury.raytracer.Canvas
-import fr.chsfleury.raytracer.Color
 import fr.chsfleury.raytracer.Pixel
 import fr.chsfleury.raytracer.color
 import fr.chsfleury.raytracer.linalg.Transform

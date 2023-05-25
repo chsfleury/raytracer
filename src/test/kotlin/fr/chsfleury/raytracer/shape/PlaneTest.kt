@@ -1,6 +1,5 @@
 package fr.chsfleury.raytracer.shape
 
-import fr.chsfleury.raytracer.Intersection
 import fr.chsfleury.raytracer.assertions.Vec4Assert.Companion.assertThatVec4
 import fr.chsfleury.raytracer.intersection
 import fr.chsfleury.raytracer.plane

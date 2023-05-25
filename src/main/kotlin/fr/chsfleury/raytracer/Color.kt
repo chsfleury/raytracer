@@ -1,8 +1,6 @@
 package fr.chsfleury.raytracer
 
 import fr.chsfleury.raytracer.Doubles.eq
-import java.io.Writer
-import kotlin.math.roundToInt
 
 data class Color (
     val r: Double,

@@ -1,21 +1,12 @@
 package fr.chsfleury.raytracer.exercises.ballshadow
 
-import fr.chsfleury.raytracer.Canvas
-import fr.chsfleury.raytracer.Color
-import fr.chsfleury.raytracer.Intersection.Companion.hit
 import fr.chsfleury.raytracer.camera
 import fr.chsfleury.raytracer.color
 import fr.chsfleury.raytracer.material
 import fr.chsfleury.raytracer.plane
 import fr.chsfleury.raytracer.point
 import fr.chsfleury.raytracer.pointLight
-import fr.chsfleury.raytracer.ray
-import fr.chsfleury.raytracer.rotationX
-import fr.chsfleury.raytracer.rotationY
-import fr.chsfleury.raytracer.rotationZ
 import fr.chsfleury.raytracer.scaling
-import fr.chsfleury.raytracer.shape.Sphere
-import fr.chsfleury.raytracer.shearing
 import fr.chsfleury.raytracer.sphere
 import fr.chsfleury.raytracer.swing.Window
 import fr.chsfleury.raytracer.translation
@@ -23,7 +14,6 @@ import fr.chsfleury.raytracer.vector
 import fr.chsfleury.raytracer.viewTransform
 import fr.chsfleury.raytracer.world
 import kotlin.math.PI
-import kotlin.math.min
 
 object BallShadow {
 

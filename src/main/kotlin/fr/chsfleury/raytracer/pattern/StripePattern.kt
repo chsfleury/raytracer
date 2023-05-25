@@ -3,7 +3,6 @@ package fr.chsfleury.raytracer.pattern
 import fr.chsfleury.raytracer.Color
 import fr.chsfleury.raytracer.linalg.NDArray
 import fr.chsfleury.raytracer.linalg.Vec4
-import fr.chsfleury.raytracer.shape.Shape
 import kotlin.math.floor
 
 data class StripePattern(

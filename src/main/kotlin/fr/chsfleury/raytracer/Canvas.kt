@@ -3,7 +3,6 @@ package fr.chsfleury.raytracer
 import fr.chsfleury.raytracer.Doubles.scaleTo255Int
 import java.io.ByteArrayOutputStream
 import java.io.OutputStream
-import kotlin.math.roundToInt
 
 data class Canvas(
     val width: Int,
