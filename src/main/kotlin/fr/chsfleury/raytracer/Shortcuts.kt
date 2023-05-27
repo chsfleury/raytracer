@@ -7,6 +7,8 @@ import fr.chsfleury.raytracer.linalg.NDArray.Companion.ID4
 import fr.chsfleury.raytracer.linalg.Transform
 import fr.chsfleury.raytracer.linalg.Vec4
 import fr.chsfleury.raytracer.material.Material
+import fr.chsfleury.raytracer.noise.Noise
+import fr.chsfleury.raytracer.noise.Perlin
 import fr.chsfleury.raytracer.pattern.BlendedPattern
 import fr.chsfleury.raytracer.pattern.CheckersPattern
 import fr.chsfleury.raytracer.pattern.SolidPattern
@@ -14,6 +16,7 @@ import fr.chsfleury.raytracer.pattern.SolidPattern.Companion.BLACK_PATTERN
 import fr.chsfleury.raytracer.pattern.SolidPattern.Companion.WHITE_PATTERN
 import fr.chsfleury.raytracer.pattern.GradientPattern
 import fr.chsfleury.raytracer.pattern.Pattern
+import fr.chsfleury.raytracer.pattern.PerturbedPattern
 import fr.chsfleury.raytracer.pattern.RadialGradientPattern
 import fr.chsfleury.raytracer.pattern.RingPattern
 import fr.chsfleury.raytracer.pattern.StripePattern
@@ -104,4 +107,6 @@ fun checkersPattern(patternA: Pattern = WHITE_PATTERN, patternB: Pattern = BLACK
 
 fun radialGradientPattern(patternA: Pattern = WHITE_PATTERN, patternB: Pattern = BLACK_PATTERN, transform: NDArray = ID4): RadialGradientPattern = RadialGradientPattern(patternA, patternB, transform)
 
-fun blendPattern(patternA: Pattern = WHITE_PATTERN, patternB: Pattern = BLACK_PATTERN, transform: NDArray = ID4) = BlendedPattern(patternA, patternB, transform)
+fun blendPattern(patternA: Pattern = WHITE_PATTERN, patternB: Pattern = BLACK_PATTERN, transform: NDArray = ID4): BlendedPattern = BlendedPattern(patternA, patternB, transform)
+
+fun perturbed(pattern: Pattern, noise: Noise = Perlin, scale: Double = 0.2, transform: NDArray = ID4): PerturbedPattern = PerturbedPattern(pattern, noise, scale, transform)

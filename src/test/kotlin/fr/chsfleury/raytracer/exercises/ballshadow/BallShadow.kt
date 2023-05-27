@@ -7,6 +7,7 @@ import fr.chsfleury.raytracer.color
 import fr.chsfleury.raytracer.gradientPattern
 import fr.chsfleury.raytracer.solidPattern
 import fr.chsfleury.raytracer.material
+import fr.chsfleury.raytracer.perturbed
 import fr.chsfleury.raytracer.plane
 import fr.chsfleury.raytracer.point
 import fr.chsfleury.raytracer.pointLight
@@ -54,13 +55,16 @@ object BallShadow {
         val middle = sphere(
             transform = rotationY(PI / 4) * translation(-0.5, 1, 0.5),
             material = material(
-                pattern = stripePattern(
-                    patternA = stripePattern(
-                        patternA = solidPattern(color(1, 1, 0)),
-                        patternB = solidPattern(Color.WHITE),
-                        transform = rotationZ(PI / 3) * scaling(0.3, 0.3, 0.3)
+                pattern = perturbed(
+                    pattern = stripePattern(
+                        patternA = stripePattern(
+                            patternA = solidPattern(color(1, 1, 0)),
+                            patternB = solidPattern(Color.WHITE),
+                            transform = rotationZ(PI / 3) * scaling(0.3, 0.3, 0.3)
+                        ),
+                        patternB = solidPattern(color(1, 0, 0))
+
                     ),
-                    patternB = solidPattern(color(1, 0, 0)),
                     transform = scaling(0.2, 0.2, 0.2)
                 ),
                 color = color(0.1, 1, 0.5),
