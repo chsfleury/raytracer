@@ -1,6 +1,5 @@
 package fr.chsfleury.raytracer
 
-import fr.chsfleury.raytracer.Color.Companion.BLACK
 import fr.chsfleury.raytracer.Color.Companion.WHITE
 import fr.chsfleury.raytracer.light.PointLight
 import fr.chsfleury.raytracer.linalg.NDArray
@@ -9,6 +8,9 @@ import fr.chsfleury.raytracer.linalg.Transform
 import fr.chsfleury.raytracer.linalg.Vec4
 import fr.chsfleury.raytracer.material.Material
 import fr.chsfleury.raytracer.pattern.CheckersPattern
+import fr.chsfleury.raytracer.pattern.SolidPattern
+import fr.chsfleury.raytracer.pattern.SolidPattern.Companion.BLACK_PATTERN
+import fr.chsfleury.raytracer.pattern.SolidPattern.Companion.WHITE_PATTERN
 import fr.chsfleury.raytracer.pattern.GradientPattern
 import fr.chsfleury.raytracer.pattern.Pattern
 import fr.chsfleury.raytracer.pattern.RadialGradientPattern
@@ -60,8 +62,8 @@ fun shearing(xByY: Number, xByZ: Number, yByX: Number, yByZ: Number, zByX: Numbe
     xByY.toDouble(), xByZ.toDouble(), yByX.toDouble(), yByZ.toDouble(), zByX.toDouble(), zByY.toDouble()
 )
 
-fun color(r: Double, g: Double, b: Double) = Color(r, g, b)
-fun color(r: Number, g: Number, b: Number) = color(r.toDouble(), g.toDouble(), b.toDouble())
+fun color(r: Double, g: Double, b: Double): Color = Color(r, g, b)
+fun color(r: Number, g: Number, b: Number): Color = color(r.toDouble(), g.toDouble(), b.toDouble())
 
 fun pointLight(position: Vec4, intensity: Color = color(1, 1, 1)): PointLight = PointLight(position, intensity)
 
@@ -90,11 +92,13 @@ fun camera(hSize: Int, vSize: Int, fieldOfView: Double = PI / 2, transform: NDAr
 
 fun plane(material: Material = material(), transform: NDArray = ID4): Plane = Plane(material, transform)
 
-fun stripePattern(colorA: Color = WHITE, colorB: Color = BLACK, transform: NDArray = ID4): StripePattern = StripePattern(colorA, colorB, transform)
+fun solidPattern(color: Color = WHITE): SolidPattern = SolidPattern(color)
 
-fun gradientPattern(colorA: Color = WHITE, colorB: Color = BLACK, transform: NDArray = ID4): GradientPattern = GradientPattern(colorA, colorB, transform)
-fun ringPattern(colorA: Color = WHITE, colorB: Color = BLACK, transform: NDArray = ID4): RingPattern = RingPattern(colorA, colorB, transform)
+fun stripePattern(patternA: Pattern = WHITE_PATTERN, patternB: Pattern = BLACK_PATTERN, transform: NDArray = ID4): StripePattern = StripePattern(patternA, patternB, transform)
 
-fun checkersPattern(colorA: Color = WHITE, colorB: Color = BLACK, transform: NDArray = ID4): CheckersPattern = CheckersPattern(colorA, colorB, transform)
+fun gradientPattern(patternA: Pattern = WHITE_PATTERN, patternB: Pattern = BLACK_PATTERN, transform: NDArray = ID4): GradientPattern = GradientPattern(patternA, patternB, transform)
+fun ringPattern(patternA: Pattern = WHITE_PATTERN, patternB: Pattern = BLACK_PATTERN, transform: NDArray = ID4): RingPattern = RingPattern(patternA, patternB, transform)
 
-fun radialGradientPattern(colorA: Color = WHITE, colorB: Color = BLACK, transform: NDArray = ID4): RadialGradientPattern = RadialGradientPattern(colorA, colorB, transform)
+fun checkersPattern(patternA: Pattern = WHITE_PATTERN, patternB: Pattern = BLACK_PATTERN, transform: NDArray = ID4): CheckersPattern = CheckersPattern(patternA, patternB, transform)
+
+fun radialGradientPattern(patternA: Pattern = WHITE_PATTERN, patternB: Pattern = BLACK_PATTERN, transform: NDArray = ID4): RadialGradientPattern = RadialGradientPattern(patternA, patternB, transform)

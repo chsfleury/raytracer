@@ -8,7 +8,7 @@ import fr.chsfleury.raytracer.linalg.Vec4
 data class TestPattern(
     override val transform: NDArray
 ): Pattern {
-    override fun patternAt(point: Vec4): Color {
+    override fun colorAt(point: Vec4): Color {
         return color(point.x, point.y, point.z)
     }
 

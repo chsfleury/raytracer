@@ -7,12 +7,14 @@ import kotlin.math.floor
 import kotlin.math.sqrt
 
 data class RadialGradientPattern(
-    val colorA: Color,
-    val colorB: Color,
+    val patternA: Pattern,
+    val patternB: Pattern,
     override val transform: NDArray
 ): Pattern {
-    override fun patternAt(point: Vec4): Color {
+    override fun colorAt(point: Vec4): Color {
         val a = sqrt(point.x * point.x + point.z * point.z)
+        val colorA = patternA.colorAt(point)
+        val colorB = patternB.colorAt(point)
         return colorA + (colorB - colorA) * (a - floor(a))
     }
 }

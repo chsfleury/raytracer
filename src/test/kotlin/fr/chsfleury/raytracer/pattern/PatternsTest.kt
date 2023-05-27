@@ -14,6 +14,7 @@ import fr.chsfleury.raytracer.scaling
 import fr.chsfleury.raytracer.sphere
 import fr.chsfleury.raytracer.stripePattern
 import fr.chsfleury.raytracer.translation
+import org.assertj.core.api.Assertions.assertThat
 import org.junit.jupiter.api.Test
 
 class PatternsTest {
@@ -21,46 +22,46 @@ class PatternsTest {
     @Test
     fun `Creating a stripe pattern` () {
         val pattern = stripePattern()
-        assertThatColor(pattern.colorA).isEqualTo(Color.WHITE)
-        assertThatColor(pattern.colorB).isEqualTo(Color.BLACK)
+        assertThat(pattern.patternA).isEqualTo(SolidPattern.WHITE_PATTERN)
+        assertThat(pattern.patternB).isEqualTo(SolidPattern.BLACK_PATTERN)
     }
 
     @Test
     fun `A stripe pattern is constant in y` () {
         val pattern = stripePattern()
-        assertThatColor(pattern.patternAt(point(0, 0, 0)))
+        assertThatColor(pattern.colorAt(point(0, 0, 0)))
             .isEqualTo(Color.WHITE)
-        assertThatColor(pattern.patternAt(point(0, 1, 0)))
+        assertThatColor(pattern.colorAt(point(0, 1, 0)))
             .isEqualTo(Color.WHITE)
-        assertThatColor(pattern.patternAt(point(0, 2, 0)))
+        assertThatColor(pattern.colorAt(point(0, 2, 0)))
             .isEqualTo(Color.WHITE)
     }
 
     @Test
     fun `A stripe pattern is constant in z` () {
         val pattern = stripePattern()
-        assertThatColor(pattern.patternAt(point(0, 0, 0)))
+        assertThatColor(pattern.colorAt(point(0, 0, 0)))
             .isEqualTo(Color.WHITE)
-        assertThatColor(pattern.patternAt(point(0, 0, 1)))
+        assertThatColor(pattern.colorAt(point(0, 0, 1)))
             .isEqualTo(Color.WHITE)
-        assertThatColor(pattern.patternAt(point(0, 0, 2)))
+        assertThatColor(pattern.colorAt(point(0, 0, 2)))
             .isEqualTo(Color.WHITE)
     }
 
     @Test
     fun `A stripe pattern alternates in x` () {
         val pattern = stripePattern()
-        assertThatColor(pattern.patternAt(point(0, 0, 0)))
+        assertThatColor(pattern.colorAt(point(0, 0, 0)))
             .isEqualTo(Color.WHITE)
-        assertThatColor(pattern.patternAt(point(0.9, 0, 0)))
+        assertThatColor(pattern.colorAt(point(0.9, 0, 0)))
             .isEqualTo(Color.WHITE)
-        assertThatColor(pattern.patternAt(point(1, 0, 0)))
+        assertThatColor(pattern.colorAt(point(1, 0, 0)))
             .isEqualTo(Color.BLACK)
-        assertThatColor(pattern.patternAt(point(-0.1, 0, 0)))
+        assertThatColor(pattern.colorAt(point(-0.1, 0, 0)))
             .isEqualTo(Color.BLACK)
-        assertThatColor(pattern.patternAt(point(-1, 0, 0)))
+        assertThatColor(pattern.colorAt(point(-1, 0, 0)))
             .isEqualTo(Color.BLACK)
-        assertThatColor(pattern.patternAt(point(-1.1, 0, 0)))
+        assertThatColor(pattern.colorAt(point(-1.1, 0, 0)))
             .isEqualTo(Color.WHITE)
     }
 
@@ -127,43 +128,43 @@ class PatternsTest {
     @Test
     fun `A gradient linearly interpolates between colors` () {
         val pattern = gradientPattern()
-        assertThatColor(pattern.patternAt(point(0, 0, 0))).isEqualTo(Color.WHITE)
-        assertThatColor(pattern.patternAt(point(0.25, 0, 0))).isEqualTo(color(0.75, 0.75, 0.75))
-        assertThatColor(pattern.patternAt(point(0.5, 0, 0))).isEqualTo(color(0.5, 0.5, 0.5))
-        assertThatColor(pattern.patternAt(point(0.75, 0, 0))).isEqualTo(color(0.25, 0.25, 0.25))
+        assertThatColor(pattern.colorAt(point(0, 0, 0))).isEqualTo(Color.WHITE)
+        assertThatColor(pattern.colorAt(point(0.25, 0, 0))).isEqualTo(color(0.75, 0.75, 0.75))
+        assertThatColor(pattern.colorAt(point(0.5, 0, 0))).isEqualTo(color(0.5, 0.5, 0.5))
+        assertThatColor(pattern.colorAt(point(0.75, 0, 0))).isEqualTo(color(0.25, 0.25, 0.25))
     }
 
     @Test
     fun `A ring should extend in both x and z` () {
         val pattern = ringPattern()
-        assertThatColor(pattern.patternAt(point(0, 0, 0))).isEqualTo(Color.WHITE)
-        assertThatColor(pattern.patternAt(point(1, 0, 0))).isEqualTo(Color.BLACK)
-        assertThatColor(pattern.patternAt(point(0, 0, 1))).isEqualTo(Color.BLACK)
-        assertThatColor(pattern.patternAt(point(0.708, 0, 0.708))).isEqualTo(Color.BLACK)
+        assertThatColor(pattern.colorAt(point(0, 0, 0))).isEqualTo(Color.WHITE)
+        assertThatColor(pattern.colorAt(point(1, 0, 0))).isEqualTo(Color.BLACK)
+        assertThatColor(pattern.colorAt(point(0, 0, 1))).isEqualTo(Color.BLACK)
+        assertThatColor(pattern.colorAt(point(0.708, 0, 0.708))).isEqualTo(Color.BLACK)
     }
 
     @Test
     fun `Checkers should repeat in x` () {
         val pattern = checkersPattern()
-        assertThatColor(pattern.patternAt(point(0, 0, 0))).isEqualTo(Color.WHITE)
-        assertThatColor(pattern.patternAt(point(0.99, 0, 0))).isEqualTo(Color.WHITE)
-        assertThatColor(pattern.patternAt(point(1.01, 0, 0))).isEqualTo(Color.BLACK)
+        assertThatColor(pattern.colorAt(point(0, 0, 0))).isEqualTo(Color.WHITE)
+        assertThatColor(pattern.colorAt(point(0.99, 0, 0))).isEqualTo(Color.WHITE)
+        assertThatColor(pattern.colorAt(point(1.01, 0, 0))).isEqualTo(Color.BLACK)
     }
 
     @Test
     fun `Checkers should repeat in y` () {
         val pattern = checkersPattern()
-        assertThatColor(pattern.patternAt(point(0, 0, 0))).isEqualTo(Color.WHITE)
-        assertThatColor(pattern.patternAt(point(0, 0.99, 0))).isEqualTo(Color.WHITE)
-        assertThatColor(pattern.patternAt(point(0, 1.01, 0))).isEqualTo(Color.BLACK)
+        assertThatColor(pattern.colorAt(point(0, 0, 0))).isEqualTo(Color.WHITE)
+        assertThatColor(pattern.colorAt(point(0, 0.99, 0))).isEqualTo(Color.WHITE)
+        assertThatColor(pattern.colorAt(point(0, 1.01, 0))).isEqualTo(Color.BLACK)
     }
 
     @Test
     fun `Checkers should repeat in z` () {
         val pattern = checkersPattern()
-        assertThatColor(pattern.patternAt(point(0, 0, 0))).isEqualTo(Color.WHITE)
-        assertThatColor(pattern.patternAt(point(0, 0, 0.99))).isEqualTo(Color.WHITE)
-        assertThatColor(pattern.patternAt(point(0, 0, 1.01))).isEqualTo(Color.BLACK)
+        assertThatColor(pattern.colorAt(point(0, 0, 0))).isEqualTo(Color.WHITE)
+        assertThatColor(pattern.colorAt(point(0, 0, 0.99))).isEqualTo(Color.WHITE)
+        assertThatColor(pattern.colorAt(point(0, 0, 1.01))).isEqualTo(Color.BLACK)
     }
 
     fun testPattern(transform: NDArray = ID4): TestPattern = TestPattern(transform)

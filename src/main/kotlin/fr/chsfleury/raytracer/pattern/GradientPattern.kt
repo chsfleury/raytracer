@@ -6,12 +6,14 @@ import fr.chsfleury.raytracer.linalg.Vec4
 import kotlin.math.floor
 
 data class GradientPattern(
-    val colorA: Color,
-    val colorB: Color,
+    val patternA: Pattern,
+    val patternB: Pattern,
     override val transform: NDArray
 ): Pattern {
 
-    override fun patternAt(point: Vec4): Color {
+    override fun colorAt(point: Vec4): Color {
+        val colorA = patternA.colorAt(point)
+        val colorB = patternB.colorAt(point)
         return colorA + (colorB - colorA) * (point.x - floor(point.x))
     }
 }

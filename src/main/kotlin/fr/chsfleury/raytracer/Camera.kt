@@ -2,6 +2,9 @@ package fr.chsfleury.raytracer
 
 import fr.chsfleury.raytracer.linalg.NDArray
 import fr.chsfleury.raytracer.world.World
+import java.time.Duration
+import java.time.Instant
+import java.util.stream.IntStream
 import kotlin.math.tan
 
 data class Camera(
@@ -43,14 +46,35 @@ data class Camera(
     fun render(world: World): Canvas {
         val canvas = Canvas(hSize, vSize)
 
-        repeat(vSize) { y ->
-            repeat(hSize) { x ->
-                val ray = rayForPixel(x, y)
-                val color = world.colorAt(ray)
-                canvas[x, y] = color
+        val start = Instant.now()
+
+        val pixels = IntStream.range(0, vSize).parallel()
+            .mapToLong { y ->
+                IntStream.range(0, hSize).mapToLong { x ->
+                    val ray = rayForPixel(x, y)
+                    val color = world.colorAt(ray)
+                    canvas[x, y] = color
+                    1L
+                }.sum()
             }
-        }
+            .sum()
+
+        val end = Instant.now()
+
+        writeTimeResult(pixels, start, end)
 
         return canvas
+    }
+
+    private fun writeTimeResult(pixels: Long, start: Instant, end: Instant) {
+        val duration = Duration.between(start, end)
+        val seconds = duration.toSeconds()
+        val millis = duration.toMillisPart()
+
+        val totalMillis = duration.toMillis()
+        val rate = 1.0F * pixels / totalMillis
+
+        println("$pixels pixels in ${seconds}s${millis}ms")
+        println("$rate pixels/ms")
     }
 }
