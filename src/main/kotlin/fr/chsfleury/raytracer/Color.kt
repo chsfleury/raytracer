@@ -43,4 +43,10 @@ data class Color (
         g * other.g,
         b * other.b
     )
+
+    fun averageWith(other: Color) = Color(
+        (r + other.r) / 2,
+        (g + other.g) / 2,
+        (b + other.b) / 2
+    )
 }
