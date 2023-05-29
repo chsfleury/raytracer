@@ -43,7 +43,7 @@ data class Camera(
         return Ray(origin, direction)
     }
 
-    fun render(world: World): Canvas {
+    fun render(world: World, reflectionMaxDepth: Int = 5): Canvas {
         val canvas = Canvas(hSize, vSize)
 
         val start = Instant.now()
@@ -52,7 +52,7 @@ data class Camera(
             .mapToLong { y ->
                 IntStream.range(0, hSize).mapToLong { x ->
                     val ray = rayForPixel(x, y)
-                    val color = world.colorAt(ray)
+                    val color = world.colorAt(ray, reflectionMaxDepth)
                     canvas[x, y] = color
                     1L
                 }.sum()

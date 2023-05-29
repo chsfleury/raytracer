@@ -17,6 +17,8 @@ import fr.chsfleury.raytracer.translation
 import fr.chsfleury.raytracer.vector
 import fr.chsfleury.raytracer.world
 import org.assertj.core.api.Assertions.assertThat
+import org.junit.jupiter.api.Assertions
+import org.junit.jupiter.api.Assertions.assertDoesNotThrow
 import org.junit.jupiter.api.Test
 import kotlin.math.sqrt
 
@@ -243,4 +245,60 @@ class WorldTest {
         assertThatColor(color).isEqualTo(color(0.87677, 0.92436, 0.82918), 0.00002)
     }
 
+    @Test
+    fun `color_at() with mutually reflective surfaces` () {
+        val light = pointLight(
+            point(0, 0, 0),
+            color(1, 1, 1)
+        )
+        val lower = plane(
+            material = material(
+                reflective = 1.0,
+            ),
+            transform = translation(0, -1, 0)
+        )
+        val upper = plane(
+            material = material(
+                reflective = 1.0
+            ),
+            transform = translation(0, 1, 0)
+        )
+        val w = world(
+            light = light,
+            objects = listOf(
+                lower,
+                upper
+            )
+        )
+        val r = ray(
+            point(0, 0, 0),
+            vector(0, 1, 0)
+        )
+        assertDoesNotThrow {
+            w.colorAt(r)
+        }
+    }
+
+    @Test
+    fun `The reflected color at the maximum recursive depth` () {
+        val shape = plane(
+            material = material(
+                reflective = 0.5
+            ),
+            transform = translation(0, -1, 0)
+        )
+        val w = defaultWorld.copy(
+            objects = listOf(
+                s1, s2, shape
+            )
+        )
+        val a = sqrt(2.0) / 2
+        val r = ray(
+            point(0, 0, -3),
+            vector(0, -a, a)
+        )
+        val i = intersection(sqrt(2.0), shape)
+        val comps = prepareComputations(i, r)
+        assertThatColor(w.reflectedColor(comps, 0)).isEqualTo(Color.BLACK)
+    }
 }

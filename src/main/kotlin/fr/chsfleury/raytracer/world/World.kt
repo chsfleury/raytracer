@@ -20,7 +20,7 @@ data class World(
         .sortedBy { it.t }
         .toList()
 
-    fun shadeHit(computations: IntersectionComputation): Color {
+    fun shadeHit(computations: IntersectionComputation, remaining: Int = 5): Color {
         val shadowed = isShadowed(computations.overPoint)
         val surface = computations.obj.material.lighting(
             computations.obj,
@@ -31,15 +31,15 @@ data class World(
             shadowed
         )
 
-        val reflected = reflectedColor(computations)
+        val reflected = reflectedColor(computations, remaining)
         return surface + reflected
     }
 
-    fun colorAt(ray: Ray): Color {
+    fun colorAt(ray: Ray, remaining: Int = 5): Color {
         val xs = intersect(ray)
         return Intersection.hit(xs)?.let {
             val comps = prepareComputations(it, ray)
-            shadeHit(comps)
+            shadeHit(comps, remaining)
         } ?: Color.BLACK
     }
 
@@ -53,15 +53,15 @@ data class World(
         return h != null && h.t < distance
     }
 
-    fun reflectedColor(computations: IntersectionComputation): Color {
-        if(computations.obj.material.reflective eq 0.0) {
+    fun reflectedColor(computations: IntersectionComputation, remaining: Int = 5): Color {
+        if(remaining < 1 && computations.obj.material.reflective eq 0.0) {
             return Color.BLACK
         }
         val reflectRay = ray(
             computations.overPoint,
             computations.reflectVector
         )
-        val color = colorAt(reflectRay)
+        val color = colorAt(reflectRay, remaining - 1)
         return color * computations.obj.material.reflective
     }
 }
