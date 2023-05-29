@@ -99,4 +99,9 @@ class MaterialTest {
         val inShadow = true
         assertThatColor(m.lighting(sphere(), light, position, eyeV, normalV, inShadow)).isEqualTo(color(0.1, 0.1, 0.1))
     }
+
+    @Test
+    fun `Reflectivity for the default material` () {
+        assertThatDouble(material().reflective).isEqualTo(0.0)
+    }
 }

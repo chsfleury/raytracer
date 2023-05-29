@@ -1,6 +1,7 @@
 package fr.chsfleury.raytracer.assertions
 
 import fr.chsfleury.raytracer.Color
+import fr.chsfleury.raytracer.Doubles.EPSILON
 import org.assertj.core.api.AbstractAssert
 
 class ColorAssert(actual: Color): AbstractAssert<ColorAssert, Color>(actual, ColorAssert::class.java) {
@@ -8,8 +9,8 @@ class ColorAssert(actual: Color): AbstractAssert<ColorAssert, Color>(actual, Col
         fun assertThatColor(actual: Color) = ColorAssert(actual)
     }
 
-    fun isEqualTo(other: Color) = also {
-        val equality = actual eq other
+    fun isEqualTo(other: Color, epsilon: Double = EPSILON) = also {
+        val equality = actual.eq(other, epsilon)
         if (!equality) {
             failWithMessage("Actual color does not equal to expected one")
         }

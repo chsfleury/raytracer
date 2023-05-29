@@ -14,7 +14,8 @@ data class Material(
     val ambient: Double,
     val diffuse: Double,
     val specular: Double,
-    val shininess: Double
+    val shininess: Double,
+    val reflective: Double
 ) {
     init {
         if (ambient !in NORMALIZED) {

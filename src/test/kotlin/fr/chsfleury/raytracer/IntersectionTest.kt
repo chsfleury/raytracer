@@ -5,6 +5,7 @@ import fr.chsfleury.raytracer.assertions.DoubleAssert.Companion.assertThatDouble
 import fr.chsfleury.raytracer.assertions.Vec4Assert.Companion.assertThatVec4
 import org.assertj.core.api.Assertions.assertThat
 import org.junit.jupiter.api.Test
+import kotlin.math.sqrt
 
 class IntersectionTest {
 
@@ -124,5 +125,18 @@ class IntersectionTest {
         val comps = prepareComputations(i, r)
         assertThat(comps.overPoint.z).isLessThan(-EPSILON / 2)
         assertThat(comps.point.z).isGreaterThan(comps.overPoint.z)
+    }
+
+    @Test
+    fun `Precomputing the reflection vector` () {
+        val a = sqrt(2.0) / 2
+        val shape = plane()
+        val r = ray(
+            point(0, 1, -1),
+            vector(0, -a, a)
+        )
+        val i = intersection(sqrt(2.0), shape)
+        val comps = prepareComputations(i, r)
+        assertThatVec4(comps.reflectVector).isEqualTo(vector(0, a, a))
     }
 }

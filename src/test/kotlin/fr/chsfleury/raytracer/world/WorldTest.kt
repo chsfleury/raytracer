@@ -1,10 +1,12 @@
 package fr.chsfleury.raytracer.world
 
+import fr.chsfleury.raytracer.Color
 import fr.chsfleury.raytracer.assertions.ColorAssert.Companion.assertThatColor
 import fr.chsfleury.raytracer.assertions.DoubleAssert.Companion.assertThatDouble
 import fr.chsfleury.raytracer.color
 import fr.chsfleury.raytracer.intersection
 import fr.chsfleury.raytracer.material
+import fr.chsfleury.raytracer.plane
 import fr.chsfleury.raytracer.point
 import fr.chsfleury.raytracer.pointLight
 import fr.chsfleury.raytracer.prepareComputations
@@ -16,6 +18,7 @@ import fr.chsfleury.raytracer.vector
 import fr.chsfleury.raytracer.world
 import org.assertj.core.api.Assertions.assertThat
 import org.junit.jupiter.api.Test
+import kotlin.math.sqrt
 
 class WorldTest {
 
@@ -167,6 +170,77 @@ class WorldTest {
         val i = intersection(4, s2)
         val comps = prepareComputations(i, r)
         assertThatColor(w.shadeHit(comps)).isEqualTo(color(0.1, 0.1, 0.1))
+    }
+
+    @Test
+    fun `The reflected color for a nonreflective material` () {
+        val w = defaultWorld.copy(
+            objects = listOf(
+                s1,
+                s2.copy(material = s2.material.copy(ambient = 1.0))
+            )
+        )
+        val r = ray(
+            point(0, 0, 0),
+            vector(0, 0, 1)
+        )
+        val shape = w.objects[1]
+        val i = intersection(1, shape)
+        val comps = prepareComputations(i, r)
+        val color = w.reflectedColor(comps)
+        assertThatColor(color).isEqualTo(Color.BLACK)
+    }
+
+    @Test
+    fun `The reflected color for a reflective material` () {
+        val shape = plane(
+            material(
+                reflective = 0.5
+            ),
+            transform = translation(0, -1, 0)
+        )
+        val w = defaultWorld.copy(
+            objects = listOf(
+                s1,
+                s2,
+                shape
+            )
+        )
+        val a = sqrt(2.0) / 2
+        val r = ray(
+            point(0, 0, -3),
+            vector(0, -a, a)
+        )
+        val i = intersection(sqrt(2.0), shape)
+        val comps = prepareComputations(i, r)
+        val color = w.reflectedColor(comps)
+        assertThatColor(color).isEqualTo(color(0.19032, 0.2379, 0.14274), 0.000017)
+    }
+
+    @Test
+    fun `shade_hit() with a reflective material` () {
+        val shape = plane(
+            material(
+                reflective = 0.5
+            ),
+            transform = translation(0, -1, 0)
+        )
+        val w = defaultWorld.copy(
+            objects = listOf(
+                s1,
+                s2,
+                shape
+            )
+        )
+        val a = sqrt(2.0) / 2
+        val r = ray(
+            point(0, 0, -3),
+            vector(0, -a, a)
+        )
+        val i = intersection(sqrt(2.0), shape)
+        val comps = prepareComputations(i, r)
+        val color = w.shadeHit(comps)
+        assertThatColor(color).isEqualTo(color(0.87677, 0.92436, 0.82918), 0.00002)
     }
 
 }

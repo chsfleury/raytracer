@@ -1,6 +1,7 @@
 package fr.chsfleury.raytracer.world
 
 import fr.chsfleury.raytracer.Color
+import fr.chsfleury.raytracer.Doubles.eq
 import fr.chsfleury.raytracer.Intersection
 import fr.chsfleury.raytracer.IntersectionComputation
 import fr.chsfleury.raytracer.Ray
@@ -21,7 +22,7 @@ data class World(
 
     fun shadeHit(computations: IntersectionComputation): Color {
         val shadowed = isShadowed(computations.overPoint)
-        return computations.obj.material.lighting(
+        val surface = computations.obj.material.lighting(
             computations.obj,
             light,
             computations.overPoint,
@@ -29,6 +30,9 @@ data class World(
             computations.normalVector,
             shadowed
         )
+
+        val reflected = reflectedColor(computations)
+        return surface + reflected
     }
 
     fun colorAt(ray: Ray): Color {
@@ -47,5 +51,17 @@ data class World(
         val xs = intersect(r)
         val h = Intersection.hit(xs)
         return h != null && h.t < distance
+    }
+
+    fun reflectedColor(computations: IntersectionComputation): Color {
+        if(computations.obj.material.reflective eq 0.0) {
+            return Color.BLACK
+        }
+        val reflectRay = ray(
+            computations.overPoint,
+            computations.reflectVector
+        )
+        val color = colorAt(reflectRay)
+        return color * computations.obj.material.reflective
     }
 }

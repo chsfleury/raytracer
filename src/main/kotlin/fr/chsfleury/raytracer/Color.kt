@@ -18,6 +18,12 @@ data class Color (
                 && b eq other.b
     }
 
+    fun eq(other: Color, epsilon: Double): Boolean {
+        return r.eq(other.r, epsilon)
+                && g.eq(other.g, epsilon)
+                && b.eq(other.b, epsilon)
+    }
+
     operator fun plus(other: Color) = Color(
         r + other.r,
         g + other.g,

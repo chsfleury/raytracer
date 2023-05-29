@@ -77,8 +77,9 @@ fun material(
     ambient: Double = 0.1,
     diffuse: Double = 0.9,
     specular: Double = 0.9,
-    shininess: Double = 200.0
-): Material = Material(color, pattern, ambient, diffuse, specular, shininess)
+    shininess: Double = 200.0,
+    reflective: Double = 0.0
+): Material = Material(color, pattern, ambient, diffuse, specular, shininess, reflective)
 
 fun world(
     light: PointLight = pointLight(

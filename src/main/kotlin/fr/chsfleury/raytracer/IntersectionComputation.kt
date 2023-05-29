@@ -11,16 +11,18 @@ data class IntersectionComputation(
     val eyeVector: Vec4,
     val normalVector: Vec4,
     val inside: Boolean,
-    val overPoint: Vec4
+    val overPoint: Vec4,
+    val reflectVector: Vec4
 ) {
-    constructor(intersection: Intersection, point: Vec4, eyeVector: Vec4, normalVector: Vec4, inside: Boolean, overPoint: Vec4) : this(
+    constructor(intersection: Intersection, point: Vec4, eyeVector: Vec4, normalVector: Vec4, inside: Boolean, overPoint: Vec4, reflectVector: Vec4) : this(
         intersection.t,
         intersection.obj,
         point,
         eyeVector,
         normalVector,
         inside,
-        overPoint
+        overPoint,
+        reflectVector
     )
 
     companion object {
@@ -33,13 +35,15 @@ data class IntersectionComputation(
             val inside = dotNormalEye < 0
             val finalNormalV = if (inside) -normalV else normalV
             val overPoint = point + (finalNormalV * EPSILON)
+            val reflectVector = ray.direction.reflect(finalNormalV)
             return IntersectionComputation(
                 intersection,
                 point,
                 eyeV,
                 finalNormalV,
                 inside,
-                overPoint
+                overPoint,
+                reflectVector
             )
         }
 
