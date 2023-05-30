@@ -78,8 +78,10 @@ fun material(
     diffuse: Double = 0.9,
     specular: Double = 0.9,
     shininess: Double = 200.0,
-    reflective: Double = 0.0
-): Material = Material(color, pattern, ambient, diffuse, specular, shininess, reflective)
+    reflective: Double = 0.0,
+    transparency: Double = 0.0,
+    refractiveIndex: Double = 1.0
+): Material = Material(color, pattern, ambient, diffuse, specular, shininess, reflective, transparency, refractiveIndex)
 
 fun world(
     light: PointLight = pointLight(
@@ -89,7 +91,7 @@ fun world(
     objects: List<Shape> = emptyList()
 ): World = World(light, objects)
 
-fun prepareComputations(intersection: Intersection, ray: Ray) = IntersectionComputation.prepareComputations(intersection, ray)
+fun prepareComputations(hit: Intersection, ray: Ray, intersections: List<Intersection> = listOf(hit)) = IntersectionComputation.prepareComputations(hit, ray, intersections)
 
 fun viewTransform(from: Vec4, to: Vec4, up: Vec4): NDArray = Transform.viewTransform(from, to, up)
 
@@ -111,3 +113,14 @@ fun radialGradientPattern(patternA: Pattern = WHITE_PATTERN, patternB: Pattern =
 fun blendPattern(patternA: Pattern = WHITE_PATTERN, patternB: Pattern = BLACK_PATTERN, transform: NDArray = ID4): BlendedPattern = BlendedPattern(patternA, patternB, transform)
 
 fun perturbed(pattern: Pattern, noise: Noise = Perlin, scale: Double = 0.2, transform: NDArray = ID4): PerturbedPattern = PerturbedPattern(pattern, noise, scale, transform)
+
+fun glassSphere(
+    material: Material = material(
+        transparency = 1.0,
+        refractiveIndex = 1.5
+    ),
+    transform: NDArray = ID4
+): Sphere = Sphere(
+    material,
+    transform
+)

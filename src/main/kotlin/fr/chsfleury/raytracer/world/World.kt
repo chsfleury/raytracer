@@ -38,7 +38,7 @@ data class World(
     fun colorAt(ray: Ray, remaining: Int = 5): Color {
         val xs = intersect(ray)
         return Intersection.hit(xs)?.let {
-            val comps = prepareComputations(it, ray)
+            val comps = prepareComputations(it, ray, xs)
             shadeHit(comps, remaining)
         } ?: Color.BLACK
     }
@@ -54,7 +54,7 @@ data class World(
     }
 
     fun reflectedColor(computations: IntersectionComputation, remaining: Int = 5): Color {
-        if(remaining < 1 && computations.obj.material.reflective eq 0.0) {
+        if(remaining < 1 || computations.obj.material.reflective eq 0.0) {
             return Color.BLACK
         }
         val reflectRay = ray(

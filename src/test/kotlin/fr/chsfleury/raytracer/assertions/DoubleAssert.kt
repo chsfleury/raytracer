@@ -11,7 +11,7 @@ class DoubleAssert(actual: Double): AbstractAssert<DoubleAssert, Double>(actual,
     fun isEqualTo(other: Double) = also {
         val equality = actual eq other
         if (!equality) {
-            failWithMessage("Actual Double does not equal to expected one")
+            failWithMessage("Actual Double does not equal to expected one. current: $actual, expected: $other")
         }
     }
 

@@ -104,4 +104,11 @@ class MaterialTest {
     fun `Reflectivity for the default material` () {
         assertThatDouble(material().reflective).isEqualTo(0.0)
     }
+
+    @Test
+    fun `Transparency and Refractive Index for the default material` () {
+        val m = material()
+        assertThatDouble(m.transparency).isEqualTo(0.0)
+        assertThatDouble(m.refractiveIndex).isEqualTo(1.0)
+    }
 }

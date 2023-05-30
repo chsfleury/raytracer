@@ -196,4 +196,9 @@ class SphereTest {
         val s = sphere(material = m)
         assertThat(s.material).isEqualTo(m)
     }
+
+    @Test
+    fun `A helper for producing a sphere with a glassy material` () {
+
+    }
 }

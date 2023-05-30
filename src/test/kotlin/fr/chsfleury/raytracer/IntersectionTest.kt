@@ -5,6 +5,8 @@ import fr.chsfleury.raytracer.assertions.DoubleAssert.Companion.assertThatDouble
 import fr.chsfleury.raytracer.assertions.Vec4Assert.Companion.assertThatVec4
 import org.assertj.core.api.Assertions.assertThat
 import org.junit.jupiter.api.Test
+import org.junit.jupiter.params.ParameterizedTest
+import org.junit.jupiter.params.provider.CsvSource
 import kotlin.math.sqrt
 
 class IntersectionTest {
@@ -138,5 +140,50 @@ class IntersectionTest {
         val i = intersection(sqrt(2.0), shape)
         val comps = prepareComputations(i, r)
         assertThatVec4(comps.reflectVector).isEqualTo(vector(0, a, a))
+    }
+
+    @ParameterizedTest
+    @CsvSource(
+        "0, 1.0, 1.5",
+        "1, 1.5, 2.0",
+        "2, 2.0, 2.5",
+        "3, 2.5, 2.5",
+        "4, 2.5, 1.5",
+        "5, 1.5, 1.0"
+    )
+    fun `Finding n1 and n2 at various intersections` (index: Int, n1: Double, n2: Double) {
+        val a = glassSphere(
+            material = material(
+                refractiveIndex = 1.5
+            ),
+            transform = scaling(2, 2, 2)
+        )
+        val b = glassSphere(
+            material = material(
+                refractiveIndex = 2.0
+            ),
+            transform = translation(0, 0, -0.25)
+        )
+        val c = glassSphere(
+            material = material(
+                refractiveIndex = 2.5
+            ),
+            transform = translation(0, 0, 0.25)
+        )
+        val r = ray(
+            point(0, 0, -4),
+            vector(0, 0, 1)
+        )
+        val xs = intersections(
+            intersection(2, a),
+            intersection(2.75, b),
+            intersection(3.25, c),
+            intersection(4.75, b),
+            intersection(5.25, c),
+            intersection(6, a)
+        )
+        val comps = prepareComputations(xs[index], r, xs)
+        assertThatDouble(comps.n1).isEqualTo(n1)
+        assertThatDouble(comps.n2).isEqualTo(n2)
     }
 }
