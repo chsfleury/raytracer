@@ -10,6 +10,7 @@ import fr.chsfleury.raytracer.linalg.Vec4
 import fr.chsfleury.raytracer.prepareComputations
 import fr.chsfleury.raytracer.ray
 import fr.chsfleury.raytracer.shape.Shape
+import kotlin.math.sqrt
 
 data class World(
     val light: PointLight,
@@ -32,7 +33,14 @@ data class World(
         )
 
         val reflected = reflectedColor(computations, remaining)
-        return surface + reflected
+        val refracted = refractedColor(computations, remaining)
+
+        val material = computations.obj.material
+        if (material.reflective > 0 && material.transparency > 0) {
+            val reflectance = computations.schlick()
+            return surface + reflected * reflectance + refracted * (1 - reflectance)
+        }
+        return surface + reflected + refracted
     }
 
     fun colorAt(ray: Ray, remaining: Int = 5): Color {
@@ -63,5 +71,28 @@ data class World(
         )
         val color = colorAt(reflectRay, remaining - 1)
         return color * computations.obj.material.reflective
+    }
+
+    fun refractedColor(computations: IntersectionComputation, remaining: Int): Color {
+        if (remaining < 1 || computations.obj.material.transparency eq 0.0) {
+            return Color.BLACK
+        }
+
+        val nRatio = computations.n1 / computations.n2
+        val cosI = computations.eyeVector dot computations.normalVector
+        val sin2T = nRatio * nRatio * (1 - cosI * cosI)
+
+        if (sin2T > 1.0) {
+            return Color.BLACK
+        }
+
+        val cosT = sqrt(1.0 - sin2T)
+        val direction = computations.normalVector * (nRatio * cosI - cosT) - computations.eyeVector * nRatio
+        val refractRay = ray(
+            computations.underPoint,
+            direction
+        )
+
+        return colorAt(refractRay, remaining - 1) * computations.obj.material.transparency
     }
 }

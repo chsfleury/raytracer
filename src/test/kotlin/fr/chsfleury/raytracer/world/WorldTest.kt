@@ -5,7 +5,10 @@ import fr.chsfleury.raytracer.assertions.ColorAssert.Companion.assertThatColor
 import fr.chsfleury.raytracer.assertions.DoubleAssert.Companion.assertThatDouble
 import fr.chsfleury.raytracer.color
 import fr.chsfleury.raytracer.intersection
+import fr.chsfleury.raytracer.intersections
+import fr.chsfleury.raytracer.linalg.NDArray.Companion.ID4
 import fr.chsfleury.raytracer.material
+import fr.chsfleury.raytracer.pattern.TestPattern
 import fr.chsfleury.raytracer.plane
 import fr.chsfleury.raytracer.point
 import fr.chsfleury.raytracer.pointLight
@@ -300,5 +303,168 @@ class WorldTest {
         val i = intersection(sqrt(2.0), shape)
         val comps = prepareComputations(i, r)
         assertThatColor(w.reflectedColor(comps, 0)).isEqualTo(Color.BLACK)
+    }
+
+    @Test
+    fun `The refracted color with an opaque surface` () {
+        val w = defaultWorld
+        val shape = w.objects[0]
+        val r = ray(
+            point(0, 0, -5),
+            vector(0, 0, 1)
+        )
+        val xs = intersections(
+            intersection(4, shape),
+            intersection(6, shape)
+        )
+        val comps = prepareComputations(xs[0], r, xs)
+        assertThatColor(w.refractedColor(comps, 5)).isEqualTo(Color.BLACK)
+    }
+
+    @Test
+    fun `The refracted color at the maximum recursive depth` () {
+        val shape = s1.copy(
+            material = s1.material.copy(
+                transparency = 1.0,
+                refractiveIndex = 1.5
+            )
+        )
+        val w = defaultWorld.copy(
+            objects = listOf(
+                shape, s2
+            )
+        )
+        val r = ray(
+            point(0, 0, -5),
+            vector(0, 0, 1)
+        )
+        val xs = intersections(
+            intersection(4, shape),
+            intersection(6, shape)
+        )
+        val comps = prepareComputations(xs[0], r, xs)
+        assertThatColor(w.refractedColor(comps, 0)).isEqualTo(Color.BLACK)
+    }
+
+    @Test
+    fun `The refracted color under total internal reflection` () {
+        val shape = s1.copy(
+            material = s1.material.copy(
+                transparency = 1.0,
+                refractiveIndex = 1.5
+            )
+        )
+        val w = defaultWorld.copy(
+            objects = listOf(
+                shape, s2
+            )
+        )
+        val a = sqrt(2.0) / 2
+        val r = ray(
+            point(0, 0, a),
+            vector(0, 1, 0)
+        )
+        val xs = intersections(
+            intersection(-a, shape),
+            intersection(a, shape)
+        )
+        // NOTE: this time you're inside the sphere, so you need
+        // to look at the second intersection, xs[1], not xs[0]
+        val comps = prepareComputations(xs[1], r, xs)
+        assertThatColor(w.refractedColor(comps, 5)).isEqualTo(Color.BLACK)
+    }
+
+    @Test
+    fun `The refracted color with a refracted ray` () {
+        val a = s1.copy(
+            material = material(
+                ambient = 1.0,
+                pattern = TestPattern(ID4)
+            )
+        )
+        val b = s2.copy(
+            material = material(
+                transparency = 1.0,
+                refractiveIndex = 1.5
+            )
+        )
+        val w = defaultWorld.copy(
+            objects = listOf(a, b)
+        )
+        val r = ray(
+            point(0, 0, 0.1),
+            vector(0, 1, 0)
+        )
+        val xs = intersections(
+            intersection(-0.9899, a),
+            intersection(-0.4899, b),
+            intersection(0.4899, b),
+            intersection(0.9899, a)
+        )
+        val comps = prepareComputations(xs[2], r, xs)
+        assertThatColor(w.refractedColor(comps, 5)).isEqualTo(color(0, 0.99888, 0.04725), 0.0001)
+    }
+
+    @Test
+    fun `shade_hit() with a transparent material` () {
+        val floor = plane(
+            transform = translation(0, -1, 0),
+            material = material(
+                transparency = 0.5,
+                refractiveIndex = 1.5
+            )
+        )
+        val ball = sphere(
+            transform = translation(0, -3.5, -0.5),
+            material = material(
+                color = color(1, 0, 0),
+                ambient = 0.5
+            )
+        )
+        val w = defaultWorld.copy(
+            objects = listOf(s1, s2, floor, ball)
+        )
+        val a = sqrt(2.0) / 2
+        val r = ray(
+            point(0, 0, -3),
+            vector(0, -a, a)
+        )
+        val xs = intersections(
+            intersection(sqrt(2.0), floor)
+        )
+        val comps = prepareComputations(xs[0], r, xs)
+        assertThatColor(w.shadeHit(comps, 5)).isEqualTo(color(0.93642, 0.68642, 0.68642))
+    }
+
+    @Test
+    fun `shade_hit() with a reflective, transparent material` () {
+        val floor = plane(
+            transform = translation(0, -1, 0),
+            material = material(
+                reflective = 0.5,
+                transparency = 0.5,
+                refractiveIndex = 1.5
+            )
+        )
+        val ball = sphere(
+            transform = translation(0, -3.5, -0.5),
+            material = material(
+                color = color(1, 0, 0),
+                ambient = 0.5
+            )
+        )
+        val w = defaultWorld.copy(
+            objects = listOf(s1, s2, floor, ball)
+        )
+        val a = sqrt(2.0) / 2
+        val r = ray(
+            point(0, 0, -3),
+            vector(0, -a, a)
+        )
+        val xs = intersections(
+            intersection(sqrt(2.0), floor)
+        )
+        val comps = prepareComputations(xs[0], r, xs)
+        assertThatColor(w.shadeHit(comps, 5)).isEqualTo(color(0.93391, 0.69643, 0.69243))
     }
 }

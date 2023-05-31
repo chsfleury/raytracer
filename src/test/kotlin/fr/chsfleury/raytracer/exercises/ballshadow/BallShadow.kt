@@ -4,6 +4,7 @@ import fr.chsfleury.raytracer.Color
 import fr.chsfleury.raytracer.camera
 import fr.chsfleury.raytracer.checkersPattern
 import fr.chsfleury.raytracer.color
+import fr.chsfleury.raytracer.glassSphere
 import fr.chsfleury.raytracer.gradientPattern
 import fr.chsfleury.raytracer.solidPattern
 import fr.chsfleury.raytracer.material
@@ -76,18 +77,23 @@ object BallShadow {
         val right = sphere(
             transform = translation(1.5, 0.5, -0.5) * scaling(0.5, 0.5, 0.5),
             material = material(
-                color = color(0.5, 1, 0.1),
-                diffuse = 0.7,
-                specular = 0.3
+                diffuse = 0.2,
+                specular = 1.0,
+                shininess = 200.0,
+                transparency = 0.8,
+                reflective = 0.7,
+                refractiveIndex = 0.1
             )
         )
 
         val left = sphere(
             transform = translation(-1.5, 0.33, -0.75) * scaling(0.33, 0.33, 0.33),
             material = material(
-                color = color(1, 0.8, 0.1),
-                diffuse = 0.7,
-                specular = 0.3
+                diffuse = 0.2,
+                specular = 1.0,
+                shininess = 200.0,
+                transparency = 0.9,
+                reflective = 0.9
             )
         )
 

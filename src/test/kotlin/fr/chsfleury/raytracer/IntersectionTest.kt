@@ -186,4 +186,63 @@ class IntersectionTest {
         assertThatDouble(comps.n1).isEqualTo(n1)
         assertThatDouble(comps.n2).isEqualTo(n2)
     }
+
+    @Test
+    fun `The under point is offset below the surface` () {
+        val r = ray(
+            point(0, 0, -5),
+            vector(0, 0, 1)
+        )
+        val shape = glassSphere(transform = translation(0, 0, 1))
+        val i = intersection(5, shape)
+        val xs = intersections(i)
+        val comps = prepareComputations(i, r, xs)
+        assertThat(comps.underPoint.z).isGreaterThan(EPSILON / 2)
+        assertThat(comps.point.z).isLessThan(comps.underPoint.z)
+    }
+
+    @Test
+    fun `The Schlick approximation under total internal reflection` () {
+        val shape = glassSphere()
+        val a = sqrt(2.0) / 2
+        val r = ray(
+            point(0, 0, a),
+            vector(0, 1, 0)
+        )
+        val xs = intersections(
+            intersection(-a, shape),
+            intersection(a, shape)
+        )
+        val comps = prepareComputations(xs[1], r, xs)
+        assertThatDouble(comps.schlick()).isEqualTo(1.0)
+    }
+
+    @Test
+    fun `The Schlick approximation with a perpendicular viewing angle` () {
+        val shape = glassSphere()
+        val r = ray (
+            point(0, 0, 0),
+            vector(0, 1, 0)
+        )
+        val xs = intersections(
+            intersection(-1, shape),
+            intersection(1, shape)
+        )
+        val comps = prepareComputations(xs[1], r, xs)
+        assertThatDouble(comps.schlick()).isEqualTo(0.04)
+    }
+
+    @Test
+    fun `The Schlick approximation with small angle and n2 gt n1` () {
+        val shape = glassSphere()
+        val r = ray(
+            point(0, 0.99, -2),
+            vector(0, 0, 1)
+        )
+        val xs = intersections(
+            intersection(1.8589, shape)
+        )
+        val comps = prepareComputations(xs[0], r, xs)
+        assertThatDouble(comps.schlick()).isEqualTo(0.48873)
+    }
 }

@@ -12,7 +12,7 @@ class ColorAssert(actual: Color): AbstractAssert<ColorAssert, Color>(actual, Col
     fun isEqualTo(other: Color, epsilon: Double = EPSILON) = also {
         val equality = actual.eq(other, epsilon)
         if (!equality) {
-            failWithMessage("Actual color does not equal to expected one")
+            failWithMessage("Actual color does not equal to expected one, current: $actual, expected: $other")
         }
     }
 }

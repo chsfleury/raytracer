@@ -32,8 +32,8 @@ data class Material(
             error("specular must be between 0 and 1")
         }
 
-        if (shininess !in 10.0..200.0) {
-            error("shininess must be between 10 and 200")
+        if (shininess !in 10.0..1000.0) {
+            error("shininess must be between 10 and 1000")
         }
     }
 
