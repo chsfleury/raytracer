@@ -20,6 +20,7 @@ import fr.chsfleury.raytracer.pattern.PerturbedPattern
 import fr.chsfleury.raytracer.pattern.RadialGradientPattern
 import fr.chsfleury.raytracer.pattern.RingPattern
 import fr.chsfleury.raytracer.pattern.StripePattern
+import fr.chsfleury.raytracer.shape.Cube
 import fr.chsfleury.raytracer.shape.Plane
 import fr.chsfleury.raytracer.shape.Shape
 import fr.chsfleury.raytracer.shape.Sphere
@@ -124,3 +125,5 @@ fun glassSphere(
     material,
     transform
 )
+
+fun cube(material: Material = material(), transform: NDArray = ID4): Cube = Cube(material, transform)

@@ -36,7 +36,7 @@ class Vec4Assert(actual: Vec4): AbstractAssert<Vec4Assert, Vec4>(actual, Vec4Ass
     fun isEqualTo(other: Vec4) = also {
         val equality = actual eq other
         if (!equality) {
-            failWithMessage("Actual tuple does not equal to expected one")
+            failWithMessage("Actual tuple does not equal to expected one. current: $actual, expected: $other")
         }
     }
 

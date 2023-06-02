@@ -78,11 +78,11 @@ object BallShadow {
             transform = translation(1.5, 0.5, -0.5) * scaling(0.5, 0.5, 0.5),
             material = material(
                 diffuse = 0.2,
-                specular = 1.0,
+                specular = 0.3,
                 shininess = 200.0,
-                transparency = 0.8,
-                reflective = 0.7,
-                refractiveIndex = 0.1
+                transparency = 0.0,
+                reflective = 1.0,
+                refractiveIndex = 0.0
             )
         )
 
