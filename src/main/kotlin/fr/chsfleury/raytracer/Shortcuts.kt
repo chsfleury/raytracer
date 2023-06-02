@@ -21,10 +21,13 @@ import fr.chsfleury.raytracer.pattern.RadialGradientPattern
 import fr.chsfleury.raytracer.pattern.RingPattern
 import fr.chsfleury.raytracer.pattern.StripePattern
 import fr.chsfleury.raytracer.shape.Cube
+import fr.chsfleury.raytracer.shape.Cylinder
 import fr.chsfleury.raytracer.shape.Plane
 import fr.chsfleury.raytracer.shape.Shape
 import fr.chsfleury.raytracer.shape.Sphere
 import fr.chsfleury.raytracer.world.World
+import kotlin.Double.Companion.NEGATIVE_INFINITY
+import kotlin.Double.Companion.POSITIVE_INFINITY
 import kotlin.math.PI
 
 fun point(x: Double, y: Double, z: Double): Vec4 = Vec4.point(x, y, z)
@@ -127,3 +130,11 @@ fun glassSphere(
 )
 
 fun cube(material: Material = material(), transform: NDArray = ID4): Cube = Cube(material, transform)
+
+fun cylinder(
+    material: Material = material(),
+    transform: NDArray = ID4,
+    minimum: Double = NEGATIVE_INFINITY,
+    maximum: Double = POSITIVE_INFINITY,
+    closed: Boolean = false
+): Cylinder = Cylinder(material, transform, minimum, maximum, closed)
