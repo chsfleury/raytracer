@@ -9,6 +9,7 @@ import fr.chsfleury.raytracer.material.Material
 interface Shape {
     val material: Material
     val transform: NDArray
+    var parent: Group?
 
     fun localIntersect(localRay: Ray): List<Intersection>
 

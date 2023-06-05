@@ -15,7 +15,8 @@ data class Cone(
     override val transform: NDArray,
     override val minimum: Double,
     override val maximum: Double,
-    override val closed: Boolean
+    override val closed: Boolean,
+    override var parent: Group?
 ): CylinderBased {
 
     override fun a(localRay: Ray): Double = localRay.direction.x.pow(2) - localRay.direction.y.pow(2) + localRay.direction.z.pow(2)

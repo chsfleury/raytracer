@@ -10,7 +10,8 @@ import kotlin.math.sqrt
 
 data class Sphere(
     override val material: Material,
-    override val transform: NDArray = NDArray.ID4
+    override val transform: NDArray = NDArray.ID4,
+    override var parent: Group?
 ): Shape {
 
     override fun localIntersect(localRay: Ray): List<Intersection> {

@@ -14,7 +14,8 @@ data class Cylinder(
     override val transform: NDArray,
     override val minimum: Double,
     override val maximum: Double,
-    override val closed: Boolean
+    override val closed: Boolean,
+    override var parent: Group?
 ): CylinderBased {
 
     override fun intersectWalls(ray: Ray, xs: MutableList<Intersection>) {

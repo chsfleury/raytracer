@@ -12,7 +12,8 @@ import kotlin.math.min
 
 data class Cube(
     override val material: Material,
-    override val transform: NDArray
+    override val transform: NDArray,
+    override var parent: Group?
 ) : Shape {
 
     override fun localIntersect(localRay: Ray): List<Intersection> {

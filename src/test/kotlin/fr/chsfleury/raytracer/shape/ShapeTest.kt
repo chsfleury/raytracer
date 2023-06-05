@@ -83,9 +83,16 @@ class ShapeTest {
             .isEqualTo(vector(0, 0.97014, -0.24254))
     }
 
+    @Test
+    fun `A shape has a parent attribute` () {
+        val s = testShape()
+        assertThat(s.parent).isNull()
+    }
+
     fun testShape(
         material: Material = material(),
-        transform: NDArray = ID4
-    ): TestShape = TestShape(material, transform)
+        transform: NDArray = ID4,
+        parent: Group? = null
+    ): TestShape = TestShape(material, transform, parent)
 
 }

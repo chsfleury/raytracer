@@ -23,6 +23,7 @@ import fr.chsfleury.raytracer.pattern.StripePattern
 import fr.chsfleury.raytracer.shape.Cone
 import fr.chsfleury.raytracer.shape.Cube
 import fr.chsfleury.raytracer.shape.Cylinder
+import fr.chsfleury.raytracer.shape.Group
 import fr.chsfleury.raytracer.shape.Plane
 import fr.chsfleury.raytracer.shape.Shape
 import fr.chsfleury.raytracer.shape.Sphere
@@ -42,8 +43,11 @@ fun tuple(x: Number, y: Number, z: Number, w: Number): Vec4 = tuple(x.toDouble()
 
 fun ray(origin: Vec4, direction: Vec4): Ray = Ray(origin, direction)
 
-fun sphere(material: Material = material(), transform: NDArray = ID4): Sphere =
-    Sphere(material, transform)
+fun sphere(
+    material: Material = material(),
+    transform: NDArray = ID4,
+    parent: Group? = null
+): Sphere = Sphere(material, transform, parent)
 
 fun intersection(t: Double, obj: Shape): Intersection = Intersection(t, obj)
 fun intersection(t: Number, obj: Shape): Intersection = intersection(t.toDouble(), obj)
@@ -102,7 +106,11 @@ fun viewTransform(from: Vec4, to: Vec4, up: Vec4): NDArray = Transform.viewTrans
 
 fun camera(hSize: Int, vSize: Int, fieldOfView: Double = PI / 2, transform: NDArray = ID4) = Camera(hSize, vSize, fieldOfView, transform)
 
-fun plane(material: Material = material(), transform: NDArray = ID4): Plane = Plane(material, transform)
+fun plane(
+    material: Material = material(),
+    transform: NDArray = ID4,
+    parent: Group? = null
+): Plane = Plane(material, transform, parent)
 
 fun solidPattern(color: Color = WHITE): SolidPattern = SolidPattern(color)
 
@@ -124,26 +132,36 @@ fun glassSphere(
         transparency = 1.0,
         refractiveIndex = 1.5
     ),
-    transform: NDArray = ID4
+    transform: NDArray = ID4,
+    parent: Group? = null
 ): Sphere = Sphere(
     material,
-    transform
+    transform,
+    parent
 )
 
-fun cube(material: Material = material(), transform: NDArray = ID4): Cube = Cube(material, transform)
+fun cube(
+    material: Material = material(),
+    transform: NDArray = ID4,
+    parent: Group? = null
+): Cube = Cube(material, transform, parent)
 
 fun cylinder(
     material: Material = material(),
     transform: NDArray = ID4,
     minimum: Double = NEGATIVE_INFINITY,
     maximum: Double = POSITIVE_INFINITY,
-    closed: Boolean = false
-): Cylinder = Cylinder(material, transform, minimum, maximum, closed)
+    closed: Boolean = false,
+    parent: Group? = null
+): Cylinder = Cylinder(material, transform, minimum, maximum, closed, parent)
 
 fun cone(
     material: Material = material(),
     transform: NDArray = ID4,
     minimum: Double = NEGATIVE_INFINITY,
     maximum: Double = POSITIVE_INFINITY,
-    closed: Boolean = false
-): Cone = Cone(material, transform, minimum, maximum, closed)
+    closed: Boolean = false,
+    parent: Group? = null
+): Cone = Cone(material, transform, minimum, maximum, closed, parent)
+
+fun group(shapes: List<Shape> = emptyList(), transform: NDArray = ID4, parent: Group? = null): Group = Group(shapes, transform, parent)

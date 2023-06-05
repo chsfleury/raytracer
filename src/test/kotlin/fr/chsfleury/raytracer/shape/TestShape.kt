@@ -9,7 +9,8 @@ import fr.chsfleury.raytracer.material.Material
 
 data class TestShape(
     override val material: Material = material(),
-    override val transform: NDArray = NDArray.ID4
+    override val transform: NDArray = NDArray.ID4,
+    override var parent: Group?
 ) : Shape {
 
     lateinit var savedRay: Ray
