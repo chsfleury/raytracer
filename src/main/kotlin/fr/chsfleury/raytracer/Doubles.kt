@@ -30,4 +30,7 @@ object Doubles {
 
     fun scaleTo255Int(c: Double): Int = (c * 255).coerceIn(0.0, 255.0).roundToInt()
 
+    fun Double.isNearZero(): Boolean = abs(this) <= EPSILON
+    fun Double.isNotZero(): Boolean = abs(this) > EPSILON
+
 }

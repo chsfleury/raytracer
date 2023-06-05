@@ -19,10 +19,16 @@ interface Shape {
 
     fun localNormalAt(localPoint: Vec4): Vec4
 
-    fun normalAt(point: Vec4): Vec4 {
+    fun normalAt(point: Vec4, normalize: Boolean = true): Vec4 {
         val localPoint = transform.inv * point
         val localNormal = localNormalAt(localPoint)
         val worldNormal = transform.trInv * localNormal
-        return worldNormal.toVector().normalize()
+        return worldNormal.toVector().let {
+            if(normalize) {
+                it.normalize()
+            } else {
+                it
+            }
+        }
     }
 }

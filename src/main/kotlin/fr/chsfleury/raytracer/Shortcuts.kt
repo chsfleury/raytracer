@@ -20,6 +20,7 @@ import fr.chsfleury.raytracer.pattern.PerturbedPattern
 import fr.chsfleury.raytracer.pattern.RadialGradientPattern
 import fr.chsfleury.raytracer.pattern.RingPattern
 import fr.chsfleury.raytracer.pattern.StripePattern
+import fr.chsfleury.raytracer.shape.Cone
 import fr.chsfleury.raytracer.shape.Cube
 import fr.chsfleury.raytracer.shape.Cylinder
 import fr.chsfleury.raytracer.shape.Plane
@@ -138,3 +139,11 @@ fun cylinder(
     maximum: Double = POSITIVE_INFINITY,
     closed: Boolean = false
 ): Cylinder = Cylinder(material, transform, minimum, maximum, closed)
+
+fun cone(
+    material: Material = material(),
+    transform: NDArray = ID4,
+    minimum: Double = NEGATIVE_INFINITY,
+    maximum: Double = POSITIVE_INFINITY,
+    closed: Boolean = false
+): Cone = Cone(material, transform, minimum, maximum, closed)
