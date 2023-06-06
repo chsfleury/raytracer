@@ -1,5 +1,6 @@
 package fr.chsfleury.raytracer.linalg
 
+import fr.chsfleury.raytracer.Doubles.EPSILON
 import fr.chsfleury.raytracer.Doubles.eq
 import kotlin.math.sqrt
 
@@ -64,7 +65,8 @@ class Vec4(internal val ndArray: NDArray) {
 
     fun reflect(other: Vec4): Vec4 = this - other * 2 * (this dot other)
 
-    infix fun eq(other: Vec4): Boolean = ndArray eq other.ndArray
+    infix fun eq(other: Vec4): Boolean = eq(other, EPSILON)
+    fun eq(other: Vec4, epsilon: Double) = ndArray.eq(other.ndArray, epsilon)
 
     override fun toString() = "($x, $y, $z, $w)"
 

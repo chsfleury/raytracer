@@ -1,5 +1,6 @@
 package fr.chsfleury.raytracer.assertions
 
+import fr.chsfleury.raytracer.Doubles.EPSILON
 import fr.chsfleury.raytracer.Doubles.eq
 import fr.chsfleury.raytracer.linalg.Vec4
 import org.assertj.core.api.AbstractAssert
@@ -33,8 +34,8 @@ class Vec4Assert(actual: Vec4): AbstractAssert<Vec4Assert, Vec4>(actual, Vec4Ass
         }
     }
 
-    fun isEqualTo(other: Vec4) = also {
-        val equality = actual eq other
+    fun isEqualTo(other: Vec4, epsilon: Double = EPSILON) = also {
+        val equality = actual.eq(other, epsilon)
         if (!equality) {
             failWithMessage("Actual tuple does not equal to expected one. current: $actual, expected: $other")
         }

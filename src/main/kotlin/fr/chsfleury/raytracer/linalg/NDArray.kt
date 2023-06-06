@@ -1,5 +1,6 @@
 package fr.chsfleury.raytracer.linalg
 
+import fr.chsfleury.raytracer.Doubles.EPSILON
 import fr.chsfleury.raytracer.Doubles.neq
 import fr.chsfleury.raytracer.Ray
 
@@ -66,13 +67,15 @@ open class NDArray(
         data[y * width + x] = v
     }
 
-    infix fun eq(other: NDArray): Boolean {
+    infix fun eq(other: NDArray): Boolean = eq(other, EPSILON)
+
+    fun eq(other: NDArray, epsilon: Double): Boolean {
         if (width != other.width || height != other.height) {
             return false
         }
 
         for (i in 0 until (width * height)) {
-            if (data[i] neq other.data[i]) {
+            if (data[i].neq((other.data[i]), epsilon)) {
                 return false
             }
         }

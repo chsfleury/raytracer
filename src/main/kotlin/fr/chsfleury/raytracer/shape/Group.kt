@@ -24,7 +24,7 @@ data class Group(
     }
 
     override fun localNormalAt(localPoint: Vec4): Vec4 {
-        TODO("Not yet implemented")
+        error("unsupported")
     }
 
     fun isEmpty() = shapes.isEmpty()
