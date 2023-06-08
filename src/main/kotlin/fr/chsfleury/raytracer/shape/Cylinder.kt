@@ -1,11 +1,13 @@
 package fr.chsfleury.raytracer.shape
 
+import fr.chsfleury.raytracer.bounds.Bounds
 import fr.chsfleury.raytracer.Doubles.EPSILON
 import fr.chsfleury.raytracer.Doubles.isNotZero
 import fr.chsfleury.raytracer.Intersection
 import fr.chsfleury.raytracer.Ray
 import fr.chsfleury.raytracer.linalg.NDArray
 import fr.chsfleury.raytracer.linalg.Vec4
+import fr.chsfleury.raytracer.linalg.Vec4.Companion.point
 import fr.chsfleury.raytracer.material.Material
 import kotlin.math.pow
 
@@ -24,6 +26,11 @@ data class Cylinder(
             findWallIntersections(a, ray, xs)
         }
     }
+
+    override val bounds: Bounds = Bounds(
+        point(-1.0, minimum, -1.0),
+        point(1.0, maximum, 1.0)
+    )
 
     override fun localNormalAt(localPoint: Vec4): Vec4 {
         val dist = localPoint.x.pow(2) + localPoint.z.pow(2)

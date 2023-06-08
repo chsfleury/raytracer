@@ -2,6 +2,7 @@ package fr.chsfleury.raytracer.shape
 
 import fr.chsfleury.raytracer.Intersection
 import fr.chsfleury.raytracer.Ray
+import fr.chsfleury.raytracer.bounds.Bounds
 import fr.chsfleury.raytracer.linalg.NDArray
 import fr.chsfleury.raytracer.linalg.Vec4
 import fr.chsfleury.raytracer.material
@@ -14,6 +15,10 @@ data class TestShape(
 ) : Shape {
 
     lateinit var savedRay: Ray
+    override val bounds: Bounds = Bounds(
+        Vec4.point(-1.0, -1.0, -1.0),
+        Vec4.point(1.0, 1.0, 1.0)
+    )
 
     override fun localIntersect(localRay: Ray): List<Intersection> {
         savedRay = localRay

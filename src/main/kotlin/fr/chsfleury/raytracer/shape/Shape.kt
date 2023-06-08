@@ -1,5 +1,6 @@
 package fr.chsfleury.raytracer.shape
 
+import fr.chsfleury.raytracer.bounds.Bounds
 import fr.chsfleury.raytracer.Intersection
 import fr.chsfleury.raytracer.Ray
 import fr.chsfleury.raytracer.linalg.NDArray
@@ -10,6 +11,8 @@ interface Shape {
     val material: Material
     val transform: NDArray
     var parent: Group?
+
+    val bounds: Bounds
 
     fun localIntersect(localRay: Ray): List<Intersection>
 

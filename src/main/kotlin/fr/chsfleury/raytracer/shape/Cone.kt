@@ -1,11 +1,13 @@
 package fr.chsfleury.raytracer.shape
 
+import fr.chsfleury.raytracer.bounds.Bounds
 import fr.chsfleury.raytracer.Doubles.isNearZero
 import fr.chsfleury.raytracer.Doubles.isNotZero
 import fr.chsfleury.raytracer.Intersection
 import fr.chsfleury.raytracer.Ray
 import fr.chsfleury.raytracer.linalg.NDArray
 import fr.chsfleury.raytracer.linalg.Vec4
+import fr.chsfleury.raytracer.linalg.Vec4.Companion.point
 import fr.chsfleury.raytracer.material.Material
 import kotlin.math.pow
 import kotlin.math.sqrt
@@ -38,6 +40,11 @@ data class Cone(
             findWallIntersections(a, ray, xs)
         }
     }
+
+    override val bounds: Bounds = Bounds(
+        point(minimum, minimum, minimum),
+        point(maximum, maximum, maximum)
+    )
 
     override fun localNormalAt(localPoint: Vec4): Vec4 {
         val y = sqrt(localPoint.x.pow(2) + localPoint.z.pow(2)).let { y ->
