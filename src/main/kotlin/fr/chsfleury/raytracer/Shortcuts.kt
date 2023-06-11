@@ -27,6 +27,7 @@ import fr.chsfleury.raytracer.shape.Group
 import fr.chsfleury.raytracer.shape.Plane
 import fr.chsfleury.raytracer.shape.Shape
 import fr.chsfleury.raytracer.shape.Sphere
+import fr.chsfleury.raytracer.shape.Triangle
 import fr.chsfleury.raytracer.world.World
 import kotlin.Double.Companion.NEGATIVE_INFINITY
 import kotlin.Double.Companion.POSITIVE_INFINITY
@@ -163,5 +164,14 @@ fun cone(
     closed: Boolean = false,
     parent: Group? = null
 ): Cone = Cone(material, transform, minimum, maximum, closed, parent)
+
+fun triangle(
+    p1: Vec4,
+    p2: Vec4,
+    p3: Vec4,
+    material: Material = material(),
+    transform: NDArray = ID4,
+    parent: Group? = null
+): Triangle = Triangle(p1, p2, p3, material, transform, parent)
 
 fun group(shapes: List<Shape> = emptyList(), transform: NDArray = ID4, parent: Group? = null): Group = Group(shapes, transform, parent)
