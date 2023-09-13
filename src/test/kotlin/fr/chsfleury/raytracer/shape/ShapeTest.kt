@@ -99,11 +99,11 @@ class ShapeTest {
             transform = translation(5, 0, 0)
         )
         val g2 = group(
-            shapes = listOf(s),
+            shapes = mutableListOf(s),
             transform = scaling(2, 2, 2)
         )
         val g1 = group(
-            shapes = listOf(g2),
+            shapes = mutableListOf(g2),
             transform = rotationY(PI / 2)
         )
         assertThatVec4(s.worldToObject(point(-2, 0, -10))).isEqualTo(point(0, 0, -1))
@@ -115,11 +115,11 @@ class ShapeTest {
             transform = translation(5, 0, 0)
         )
         val g2 = group(
-            shapes = listOf(s),
+            shapes = mutableListOf(s),
             transform = scaling(1, 2, 3)
         )
         val g1 = group(
-            shapes = listOf(g2),
+            shapes = mutableListOf(g2),
             transform = rotationY(PI / 2)
         )
         val a = sqrt(3.0) / 3

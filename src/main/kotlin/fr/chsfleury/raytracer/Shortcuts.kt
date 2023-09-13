@@ -79,7 +79,7 @@ fun shearing(xByY: Number, xByZ: Number, yByX: Number, yByZ: Number, zByX: Numbe
 fun color(r: Double, g: Double, b: Double): Color = Color(r, g, b)
 fun color(r: Number, g: Number, b: Number): Color = color(r.toDouble(), g.toDouble(), b.toDouble())
 
-fun pointLight(position: Vec4, intensity: Color = color(1, 1, 1)): PointLight = PointLight(position, intensity)
+fun pointLight(position: Vec4 = point(-10, 10, -10), intensity: Color = color(1, 1, 1)): PointLight = PointLight(position, intensity)
 
 fun material(
     color: Color = color(1, 1, 1),
@@ -174,4 +174,4 @@ fun triangle(
     parent: Group? = null
 ): Triangle = Triangle(p1, p2, p3, material, transform, parent)
 
-fun group(shapes: List<Shape> = emptyList(), transform: NDArray = ID4, parent: Group? = null): Group = Group(shapes, transform, parent)
+fun group(shapes: MutableList<Shape> = mutableListOf(), transform: NDArray = ID4, parent: Group? = null, name: String? = null): Group = Group(shapes, transform, parent, name)

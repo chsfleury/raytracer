@@ -28,8 +28,8 @@ class GroupTest {
     @Test
     fun `Adding a child to a group` () {
         val s = testShape()
-        val g = group(listOf(s))
-        assertThat(g.shapes).isNotEmpty
+        val g = group(mutableListOf(s))
+        assertThat(g.size()).isGreaterThan(0)
         assertThat(s.parent).isEqualTo(g)
     }
 
@@ -53,7 +53,7 @@ class GroupTest {
             transform = translation(5, 0, 0)
         )
         val g = group(
-            shapes = listOf(s1, s2, s3)
+            shapes = mutableListOf(s1, s2, s3)
         )
         val r = ray(
             point(0, 0, -5),
@@ -71,7 +71,7 @@ class GroupTest {
             transform = translation(5, 0, 0)
         )
         val g = group(
-            shapes = listOf(s),
+            shapes = mutableListOf(s),
             transform = scaling(2, 2, 2)
         )
         val r = ray(
