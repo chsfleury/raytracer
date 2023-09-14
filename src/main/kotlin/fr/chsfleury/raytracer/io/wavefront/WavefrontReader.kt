@@ -15,19 +15,19 @@ import kotlin.io.path.useLines
 
 object WavefrontReader : Reader<WaveFrontScene> {
 
-    private val BLANK_SPACE_REGEX = Regex("\\s")
+    private val BLANK_SPACE_REGEX = Regex("\\s+")
     private const val VERTEX_COMMAND = "v"
     private const val FACE_COMMAND = "f"
     private const val GROUP_COMMAND = "g"
 
-    override fun read(filePath: Path): WaveFrontScene = createScene(filePath.useLines(Charsets.UTF_8, this::readLines))
+    override fun read(filePath: Path, pointLight: PointLight): WaveFrontScene = createScene(filePath.useLines(Charsets.UTF_8, this::readLines), pointLight)
 
-    override fun read(lines: String): WaveFrontScene = createScene(parse(lines))
+    override fun read(lines: String, pointLight: PointLight): WaveFrontScene = createScene(parse(lines), pointLight)
 
     fun parse(lines: String): WavefrontParser = readLines(lines.lineSequence())
 
-    private fun createScene(parser: WavefrontParser): WaveFrontScene {
-        val world = World(pointLight(), listOf(parser.toMainGroup()))
+    private fun createScene(parser: WavefrontParser, pointLight: PointLight): WaveFrontScene {
+        val world = World(pointLight, listOf(parser.toMainGroup()))
         return WaveFrontScene(world)
     }
 
@@ -57,8 +57,8 @@ object WavefrontReader : Reader<WaveFrontScene> {
         val (vertices, objects, groups, currentGroup) = lineContext
         val tokenIterator = BLANK_SPACE_REGEX.splitToSequence(line).iterator()
         return when (tokenIterator.next()) {
-            VERTEX_COMMAND -> parseVertex(tokenIterator)?.run(vertices::add) ?: false
-            FACE_COMMAND -> parseFaces(tokenIterator, vertices)?.run {
+            VERTEX_COMMAND -> parseVertex(tokenIterator, line)?.run(vertices::add) ?: false
+            FACE_COMMAND -> parseFaces(tokenIterator, vertices, line)?.run {
                 objects.addAll(this)
                 val group = currentGroup ?: group(name = "default").also {
                     groups.add(it)
@@ -67,7 +67,7 @@ object WavefrontReader : Reader<WaveFrontScene> {
                 group.addAll(this)
                 true
             } ?: false
-            GROUP_COMMAND -> parseGroup(tokenIterator)?.run {
+            GROUP_COMMAND -> parseGroup(tokenIterator, line)?.run {
                 lineContext.currentGroup = findGroup(groups, name)
                     ?: this.also {
                         groups.add(it)
@@ -84,26 +84,26 @@ object WavefrontReader : Reader<WaveFrontScene> {
             }
             .firstOrNull { it.name == name }
 
-    private fun parseVertex(iterator: Iterator<String>): Vec4? {
+    private fun parseVertex(iterator: Iterator<String>, line: String): Vec4? {
         return try {
             val x = iterator.next().toDouble()
             val y = iterator.next().toDouble()
             val z = iterator.next().toDouble()
             Vec4.point(x, y, z)
         } catch (ex: Exception) {
-            println("invalid line: ${ex.message}")
+            println("invalid vertex line: ${ex.message} in '$line'")
             null
         }
     }
 
-    private fun parseFaces(iterator: Iterator<String>, vertices: List<Vec4>): List<Shape>? {
+    private fun parseFaces(iterator: Iterator<String>, vertices: List<Vec4>, line: String): List<Shape>? {
         val vs = mutableListOf<Vec4>()
         try {
             while (iterator.hasNext()) {
                 vs.add(vertices[iterator.next().toInt() - 1])
             }
         } catch (ex: Exception) {
-            println("invalid line: ${ex.message}")
+            println("invalid face line: ${ex.message} in '$line'")
             return null
         }
 
@@ -122,11 +122,11 @@ object WavefrontReader : Reader<WaveFrontScene> {
         }
     }
 
-    private fun parseGroup(iterator: Iterator<String>): Group? {
+    private fun parseGroup(iterator: Iterator<String>, line: String): Group? {
         val name = try {
             iterator.next()
         } catch (ex: Exception) {
-            println("invalid line: ${ex.message}")
+            println("invalid group line: ${ex.message} in '$line'")
             return null
         }
         return group(name = name)
